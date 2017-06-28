@@ -1,5 +1,7 @@
 package com.projet.esgi.android_forum.model;
 
+import com.projet.esgi.android_forum.service.rfabstract.Exclude;
+
 import io.realm.RealmObject;
 
 /**
@@ -7,7 +9,6 @@ import io.realm.RealmObject;
  */
 
 public class Comment extends RealmObject {
-
 
     private int id;
     private String title;
