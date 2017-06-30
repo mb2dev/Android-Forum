@@ -8,6 +8,6 @@ import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
  */
 
 public interface IUserService {
-    void create(User user, IServiceResultListener<String> resultListener);
-    void read(String userID, IServiceResultListener<User> resultListener);
+    void create(User model, IServiceResultListener<String> resultListener);
+    void read(String modelID, IServiceResultListener<User> resultListener);
 }

@@ -5,5 +5,8 @@ package com.projet.esgi.android_forum;
  */
 
 public class Constants {
-    public static final String BASE_URL = "";
+    /**
+     * https://esgi-2017.herokuapp.com/api/v1/docs/
+     */
+    public static final String BASE_URL = "https://esgi-2017.herokuapp.com/";
 }
