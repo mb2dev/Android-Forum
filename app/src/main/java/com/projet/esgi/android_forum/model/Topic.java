@@ -23,15 +23,15 @@ public class Topic extends PersistedModel implements RealmModel {
 
     }
 
-    public Topic(String title, String content, Date date) {
-        this(UUID.randomUUID().toString(), title, content, date);
+    public Topic(String title, String content) {
+        this(UUID.randomUUID().toString(), title, content);
     }
 
-    public Topic(String id, String title, String content, Date date){
+    public Topic(String id, String title, String content){
         super(id);
         this.title = title;
         this.content = content;
-        this.date = date;
+        this.date = new Date();
     }
 
     public String getTitle() {

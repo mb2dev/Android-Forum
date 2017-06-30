@@ -7,6 +7,7 @@ import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
 import java.util.Date;
 import java.util.UUID;
 
+import io.realm.RealmList;
 import io.realm.RealmModel;
 import io.realm.RealmObject;
 
@@ -18,22 +19,22 @@ public class Comment extends PersistedModel implements RealmModel {
 
     private String title;
     private String content;
-    private String news;
+    private RealmList<News> news;
     private Date date;
 
     public Comment(){
 
     }
 
-    public Comment(String title, String content, String news) {
-        this(UUID.randomUUID().toString(), title, content, news);
+    public Comment(String title, String content) {
+        this(UUID.randomUUID().toString(), title, content);
     }
 
-    public Comment(String id, String title, String content, String news){
+    public Comment(String id, String title, String content){
         super(id);
         this.title = title;
         this.content = content;
-        this.news = news;
+        this.news = new RealmList<News>();
         this.date = new Date();
     }
 
@@ -53,11 +54,11 @@ public class Comment extends PersistedModel implements RealmModel {
         this.content = content;
     }
 
-    public String getNews() {
+    public RealmList<News> getNews() {
         return news;
     }
 
-    public void setNews(String news) {
+    public void setNews(RealmList<News> news) {
         this.news = news;
     }
 

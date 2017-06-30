@@ -9,6 +9,8 @@ import java.util.UUID;
  */
 
 public abstract class PersistedModel implements IRFGeneric {
+
+    @Exclude(serialize = true, deserialize = false)
     protected String id;
     public String getId(){
         return this.id;

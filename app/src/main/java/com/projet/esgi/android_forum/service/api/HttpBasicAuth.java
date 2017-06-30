@@ -17,33 +17,34 @@ public class HttpBasicAuth implements Interceptor {
 
     private static String token = null;
 
+    // TODO : persists token (in sharedPreferences or Realm)
     @Nullable
     public static String getToken(){ return token; }
     public static void setToken(String t){ token = t; }
 
-    private String username;
-    private String password;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setCredentials(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+//    private String username;
+//    private String password;
+//
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//
+//    public void setCredentials(String username, String password) {
+//        this.username = username;
+//        this.password = password;
+//    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -56,7 +57,7 @@ public class HttpBasicAuth implements Interceptor {
 //                    .addHeader("Authorization", credentials)
 //                    .build();
             request = request.newBuilder()
-                        .addHeader("Authorization", getToken())
+                        .addHeader("Authorization", "Bearer "+getToken())
                         .build();
         }
         return chain.proceed(request);

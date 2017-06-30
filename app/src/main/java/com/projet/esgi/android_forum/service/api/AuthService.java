@@ -45,7 +45,12 @@ public class AuthService implements IAuthService {
                 ServiceResult<String> result = new ServiceResult<>();
                 if(response.code() == 200) {
                     ResponseBody body = response.body();
-                    String token = body.toString();
+                    String token = null;
+                    try {
+                        token = body.string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     result.setData(token);
                     HttpBasicAuth.setToken(token);
                 }else {

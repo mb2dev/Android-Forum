@@ -10,6 +10,8 @@ import com.projet.esgi.android_forum.service.rfabstract.ServiceException;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceExceptionType;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,6 +76,31 @@ public class UserService implements IUserService {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 ServiceResult<User> result = new ServiceResult<>();
+                result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
+                if(resultListener != null)
+                    resultListener.onResult(result);
+            }
+        });
+    }
+
+    @Override
+    public void list(final IServiceResultListener<List<User>> resultListener) {
+        Call<List<User>> call = getRfService().list();
+        call.enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                ServiceResult<List<User>> result = new ServiceResult<>();
+                if(response.code() == 200)
+                    result.setData(response.body());
+                else
+                    result.setError(new ServiceException(response.code()));
+                if(resultListener != null)
+                    resultListener.onResult(result);
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                ServiceResult<List<User>> result = new ServiceResult<>();
                 result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
                 if(resultListener != null)
                     resultListener.onResult(result);

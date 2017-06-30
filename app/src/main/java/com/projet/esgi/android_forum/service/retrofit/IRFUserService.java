@@ -2,6 +2,8 @@ package com.projet.esgi.android_forum.service.retrofit;
 
 import com.projet.esgi.android_forum.model.User;
 
+import java.util.List;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,4 +22,7 @@ public interface IRFUserService {
 
     @GET("users/{id}")
     Call<User> read(@Path(value = "id", encoded = true) String path);
+
+    @GET("users/")
+    Call<List<User>> list();
 }
