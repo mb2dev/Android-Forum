@@ -10,6 +10,6 @@ public interface IGenericService<T> {
     void create(T model, final IServiceResultListener<String> resultListener);
     void read(String modelID, final IServiceResultListener<T> resultListener);
     void delete(String modelID, final IServiceResultListener<Boolean> resultListener);
-    void list(final IServiceResultListener<List<T>> models);
-    void update(String modelID, final IServiceResultListener<Boolean> resultListener);
+    void list(final IServiceResultListener<List<T>> resultListener);
+    void update(T model, final IServiceResultListener<Boolean> resultListener);
 }

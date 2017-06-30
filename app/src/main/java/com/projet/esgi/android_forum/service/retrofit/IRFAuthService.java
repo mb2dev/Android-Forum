@@ -17,8 +17,8 @@ import retrofit2.http.Path;
 
 public interface IRFAuthService {
     @POST("auth/login")
-    Call<ResponseBody> login(@Field(value="email") String email, @Field(value="password") String password);
+    Call<String> login(@Field(value="email") String email, @Field(value="password") String password);
 
-    @POST("{auth/subscribe")
-    Call<ResponseBody> read(@Body User user);
+    @POST("auth/subscribe")
+    Call<ResponseBody> subscribe(@Body User user);
 }

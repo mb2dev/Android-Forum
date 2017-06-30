@@ -2,6 +2,7 @@ package com.projet.esgi.android_forum.service.api;
 
 import com.projet.esgi.android_forum.model.Topic;
 import com.projet.esgi.android_forum.service.retrofit.IRFTopicService;
+import com.projet.esgi.android_forum.service.retrofit.RFHelper;
 import com.projet.esgi.android_forum.service.retrofit.Session;
 import com.projet.esgi.android_forum.service.rfabstract.IGenericService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
@@ -21,6 +22,9 @@ import retrofit2.Response;
  * Created by Gabriel on 28/06/2017.
  */
 
+/**
+ * @see "https://esgi-2017.herokuapp.com/api/v1/docs/"
+ */
 public class TopicService implements IGenericService<Topic> {
 
     private IRFTopicService mRfService;
@@ -30,48 +34,35 @@ public class TopicService implements IGenericService<Topic> {
         return mRfService;
     }
 
+    private RFHelper<Topic> mRFHelper;
+    private RFHelper<Topic> getmRFHelper(){
+        if(mRFHelper == null)
+            mRFHelper = new RFHelper<Topic>();
+        return mRFHelper;
+    }
+
     @Override
     public void create(Topic model, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfService().create(model);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                ServiceResult<String> result = new ServiceResult<>();
-                if(response.code() == 201)
-                    result.setData(response.headers().get("Resourceuri"));
-                else
-                    result.setError(new ServiceException(response.code()));
-                if(resultListener != null)
-                    resultListener.onResult(result);
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                ServiceResult<String> result = new ServiceResult<>();
-                result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
-                if(resultListener != null)
-                    resultListener.onResult(result);
-            }
-        });
+        getmRFHelper().getDefaultCreate(getmRfService().create(model), resultListener);
     }
 
     @Override
     public void read(String modelID, final IServiceResultListener<Topic> resultListener) {
-
+        getmRFHelper().getDefaultRead(getmRfService().read(modelID), resultListener);
     }
 
     @Override
     public void delete(String modelID, final IServiceResultListener<Boolean> resultListener) {
-
+        getmRFHelper().getDefaultDelete(getmRfService().delete(modelID), resultListener);
     }
 
     @Override
-    public void list(final IServiceResultListener<List<Topic>> models) {
-
+    public void list(final IServiceResultListener<List<Topic>> resultListener) {
+        getmRFHelper().getDefaultList(getmRfService().list(), resultListener);
     }
 
     @Override
-    public void update(String modelID, final IServiceResultListener<Boolean> resultListener) {
-
+    public void update(Topic model, final IServiceResultListener<Boolean> resultListener) {
+        getmRFHelper().getDefaultUpdate(getmRfService().update(""+model.getId(), model), resultListener);
     }
 }

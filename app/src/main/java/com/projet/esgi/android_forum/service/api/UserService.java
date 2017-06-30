@@ -18,6 +18,9 @@ import retrofit2.Response;
  * Created by Gabriel on 28/06/2017.
  */
 
+/**
+ * @see "https://esgi-2017.herokuapp.com/api/v1/docs/"
+ */
 public class UserService implements IUserService {
 
     private IRFUserService mRfUserService;
