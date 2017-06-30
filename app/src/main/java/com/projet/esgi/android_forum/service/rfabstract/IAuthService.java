@@ -7,6 +7,6 @@ import com.projet.esgi.android_forum.model.User;
  */
 
 public interface IAuthService {
-    void login(String email, String password, final IServiceResultListener<String> resultListener);
+    void login(User user, final IServiceResultListener<String> resultListener);
     void subscribe(User user, final IServiceResultListener<String> resultListener);
 }

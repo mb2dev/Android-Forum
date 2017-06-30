@@ -1,6 +1,7 @@
 package com.projet.esgi.android_forum.service.api;
 
 import com.projet.esgi.android_forum.model.User;
+import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.retrofit.IRFUserService;
 import com.projet.esgi.android_forum.service.retrofit.Session;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
@@ -24,7 +25,7 @@ import retrofit2.Response;
 public class UserService implements IUserService {
 
     private IRFUserService mRfUserService;
-    private IRFUserService getmRfService(){
+    private IRFUserService getRfService(){
         if(mRfUserService == null)
             mRfUserService = Session.getDefault().create(IRFUserService.class);
         return mRfUserService;
@@ -32,13 +33,13 @@ public class UserService implements IUserService {
 
     @Override
     public void create(User model, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfService().create(model);
+        Call<ResponseBody> call = getRfService().create(model);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 ServiceResult<String> result = new ServiceResult<>();
                 if(response.code() == 201)
-                    result.setData(response.headers().get("Resourceuri"));
+                    result.setData(response.headers().get("Location"));
                 else
                     result.setError(new ServiceException(response.code()));
                 if(resultListener != null)
@@ -57,7 +58,7 @@ public class UserService implements IUserService {
 
     @Override
     public void read(String userID, final IServiceResultListener<User> resultListener) {
-        Call<User> call = getmRfService().read(userID);
+        Call<User> call = getRfService().read(userID);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

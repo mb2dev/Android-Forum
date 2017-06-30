@@ -1,14 +1,17 @@
 package com.projet.esgi.android_forum.model;
 
+import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
+import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
+
+import io.realm.RealmModel;
 import io.realm.RealmObject;
 
 /**
  * Created by Mickael on 28/06/2017.
  */
 
-public class Post extends RealmObject {
+public class Post extends PersistedModel implements RealmModel {
 
-    private int id;
     private String title;
     private String content;
     private String date;
@@ -20,20 +23,11 @@ public class Post extends RealmObject {
 
 
     public Post(int id,String title, String content, String date, String topic){
-        this.id = id;
+        super(id);
         this.title = title;
         this.content = content;
         this.date = date;
         this.topic = topic;
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -66,5 +60,10 @@ public class Post extends RealmObject {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    @Override
+    public String getModelNameForUrlPath() {
+        return "posts";
     }
 }

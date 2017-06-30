@@ -23,7 +23,7 @@ public class RFHelper<T> {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 ServiceResult<String> result = new ServiceResult<>();
                 if(response.code() == 201)
-                    result.setData(response.headers().get("Resourceuri"));
+                    result.setData(response.headers().get("Location"));
                 else
                     result.setError(new ServiceException(response.code()));
                 if(resultListener != null)

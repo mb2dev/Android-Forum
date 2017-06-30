@@ -6,10 +6,10 @@ import java.util.List;
  * Created by Gabriel on 28/06/2017.
  */
 
-public interface IGenericService<T> {
+public interface IGenericService<T extends PersistedModel> {
     void create(T model, final IServiceResultListener<String> resultListener);
-    void read(String modelID, final IServiceResultListener<T> resultListener);
-    void delete(String modelID, final IServiceResultListener<Boolean> resultListener);
+    void read(T model, final IServiceResultListener<T> resultListener);
+    void delete(T model, final IServiceResultListener<Boolean> resultListener);
     void list(final IServiceResultListener<List<T>> resultListener);
     void update(T model, final IServiceResultListener<Boolean> resultListener);
 }

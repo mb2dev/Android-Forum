@@ -2,6 +2,7 @@ package com.projet.esgi.android_forum.service.api;
 
 import com.projet.esgi.android_forum.model.Comment;
 import com.projet.esgi.android_forum.service.retrofit.IRFCommentService;
+import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.retrofit.RFHelper;
 import com.projet.esgi.android_forum.service.retrofit.Session;
 import com.projet.esgi.android_forum.service.rfabstract.ICommentService;
@@ -28,14 +29,14 @@ import retrofit2.Response;
 public class CommentService implements IGenericService<Comment> {
 
     private IRFCommentService mRfService;
-    private IRFCommentService getmRfService(){
+    private IRFCommentService getRfService(){
         if(mRfService == null)
             mRfService = Session.getDefault().create(IRFCommentService.class);
         return mRfService;
     }
 
     private RFHelper<Comment> mRFHelper;
-    private RFHelper<Comment> getmRFHelper(){
+    private RFHelper<Comment> getRFHelper(){
         if(mRFHelper == null)
             mRFHelper = new RFHelper<Comment>();
         return mRFHelper;
@@ -43,26 +44,26 @@ public class CommentService implements IGenericService<Comment> {
 
     @Override
     public void create(Comment model, final IServiceResultListener<String> resultListener) {
-        getmRFHelper().getDefaultCreate(getmRfService().create(model), resultListener);
+        getRFHelper().getDefaultCreate(getRfService().create(model), resultListener);
     }
 
     @Override
-    public void read(String modelID, final IServiceResultListener<Comment> resultListener) {
-        getmRFHelper().getDefaultRead(getmRfService().read(modelID), resultListener);
+    public void read(Comment model, final IServiceResultListener<Comment> resultListener) {
+        getRFHelper().getDefaultRead(getRfService().read(""+model.getId()), resultListener);
     }
 
     @Override
-    public void delete(String modelID, final IServiceResultListener<Boolean> resultListener) {
-        getmRFHelper().getDefaultDelete(getmRfService().delete(modelID), resultListener);
+    public void delete(Comment model, final IServiceResultListener<Boolean> resultListener) {
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.getId()), resultListener);
     }
 
     @Override
     public void list(final IServiceResultListener<List<Comment>> resultListener) {
-        getmRFHelper().getDefaultList(getmRfService().list(), resultListener);
+        getRFHelper().getDefaultList(getRfService().list(), resultListener);
     }
 
     @Override
     public void update(Comment model, final IServiceResultListener<Boolean> resultListener) {
-        getmRFHelper().getDefaultUpdate(getmRfService().update(""+model.getId(), model), resultListener);
+        getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
     }
 }

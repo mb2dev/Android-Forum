@@ -31,21 +31,22 @@ public class AuthService implements IAuthService {
 
     public static String TOKEN = null;
     private IRFAuthService mRfService;
-    private IRFAuthService getmRfService(){
+    private IRFAuthService getRfService(){
         if(mRfService == null)
             mRfService = Session.getDefault().create(IRFAuthService.class);
         return mRfService;
     }
 
     @Override
-    public void login(String email, String password, final IServiceResultListener<String> resultListener) {
-        Call<String> call = getmRfService().login(email, password);
-        call.enqueue(new Callback<String>() {
+    public void login(User u, final IServiceResultListener<String> resultListener) {
+        Call<ResponseBody> call = getRfService().login(u);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 ServiceResult<String> result = new ServiceResult<>();
                 if(response.code() == 200) {
-                    String token = response.body();
+                    ResponseBody body = response.body();
+                    String token = body.toString();
                     result.setData(token);
                     AuthService.TOKEN = token;
                 }else {
@@ -56,7 +57,7 @@ public class AuthService implements IAuthService {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 ServiceResult<String> result = new ServiceResult<>();
                 result.setError(new ServiceException(t, ServiceExceptionType.UNKNOWN));
                 if(resultListener != null)
@@ -67,13 +68,13 @@ public class AuthService implements IAuthService {
 
     @Override
     public void subscribe(User user, final IServiceResultListener<String> resultListener) {
-        Call<ResponseBody> call = getmRfService().subscribe(user);
+        Call<ResponseBody> call = getRfService().subscribe(user);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 ServiceResult<String> result = new ServiceResult<>();
                 if(response.code() == 201)
-                    result.setData(response.headers().get("Resourceuri"));
+                    result.setData(response.headers().get("Location"));
                 else
                     result.setError(new ServiceException(response.code()));
                 if(resultListener != null)

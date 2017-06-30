@@ -1,6 +1,7 @@
 package com.projet.esgi.android_forum.service.api;
 
 import com.projet.esgi.android_forum.model.Topic;
+import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.retrofit.IRFTopicService;
 import com.projet.esgi.android_forum.service.retrofit.RFHelper;
 import com.projet.esgi.android_forum.service.retrofit.Session;
@@ -28,14 +29,14 @@ import retrofit2.Response;
 public class TopicService implements IGenericService<Topic> {
 
     private IRFTopicService mRfService;
-    private IRFTopicService getmRfService(){
+    private IRFTopicService getRfService(){
         if(mRfService == null)
             mRfService = Session.getDefault().create(IRFTopicService.class);
         return mRfService;
     }
 
     private RFHelper<Topic> mRFHelper;
-    private RFHelper<Topic> getmRFHelper(){
+    private RFHelper<Topic> getRFHelper(){
         if(mRFHelper == null)
             mRFHelper = new RFHelper<Topic>();
         return mRFHelper;
@@ -43,26 +44,26 @@ public class TopicService implements IGenericService<Topic> {
 
     @Override
     public void create(Topic model, final IServiceResultListener<String> resultListener) {
-        getmRFHelper().getDefaultCreate(getmRfService().create(model), resultListener);
+        getRFHelper().getDefaultCreate(getRfService().create(model), resultListener);
     }
 
     @Override
-    public void read(String modelID, final IServiceResultListener<Topic> resultListener) {
-        getmRFHelper().getDefaultRead(getmRfService().read(modelID), resultListener);
+    public void read(Topic model, final IServiceResultListener<Topic> resultListener) {
+        getRFHelper().getDefaultRead(getRfService().read(""+model.getId()), resultListener);
     }
 
     @Override
-    public void delete(String modelID, final IServiceResultListener<Boolean> resultListener) {
-        getmRFHelper().getDefaultDelete(getmRfService().delete(modelID), resultListener);
+    public void delete(Topic model, final IServiceResultListener<Boolean> resultListener) {
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.getId()), resultListener);
     }
 
     @Override
     public void list(final IServiceResultListener<List<Topic>> resultListener) {
-        getmRFHelper().getDefaultList(getmRfService().list(), resultListener);
+        getRFHelper().getDefaultList(getRfService().list(), resultListener);
     }
 
     @Override
     public void update(Topic model, final IServiceResultListener<Boolean> resultListener) {
-        getmRFHelper().getDefaultUpdate(getmRfService().update(""+model.getId(), model), resultListener);
+        getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
     }
 }
