@@ -4,6 +4,8 @@ import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.rfabstract.Exclude;
 import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
 
+import java.util.UUID;
+
 import io.realm.RealmModel;
 import io.realm.RealmObject;
 
@@ -21,8 +23,12 @@ public class User extends PersistedModel implements RealmModel {
     public User(){
 
     }
-    
-    public User(int id, String email, String firstname, String lastname, String password){
+
+    public User(String email, String firstname, String lastname, String password) {
+        this(UUID.randomUUID().toString(), email, firstname, lastname, password);
+    }
+
+    public User(String id, String email, String firstname, String lastname, String password){
         super(id);
         this.email = email;
         this.firstname = firstname;
@@ -66,7 +72,7 @@ public class User extends PersistedModel implements RealmModel {
         User u = new User();
         u.firstname = null;
         u.lastname = null;
-        u.id = 0;
+        u.id = null;
         u.password = password;
         u.email = email;
         return u;

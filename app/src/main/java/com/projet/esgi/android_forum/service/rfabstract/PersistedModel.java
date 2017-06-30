@@ -2,22 +2,24 @@ package com.projet.esgi.android_forum.service.rfabstract;
 
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 
+import java.util.UUID;
+
 /**
  * Created by Gabriel on 30/06/2017.
  */
 
 public abstract class PersistedModel implements IRFGeneric {
-    protected int id;
-    public int getId(){
+    protected String id;
+    public String getId(){
         return this.id;
     }
-    public void setId(int id){ this.id = id; }
+    public void setId(String id){ this.id = id; }
 
     public PersistedModel(){
-        id = -1;
+        id = UUID.randomUUID().toString();
     }
 
-    public PersistedModel(int id){
+    public PersistedModel(String id){
         this.id = id;
     }
 }

@@ -17,6 +17,9 @@ import retrofit2.Response;
  */
 
 public class RFHelper<T> {
+
+    public static String TOKEN = null;
+
     public void getDefaultCreate(Call<ResponseBody> call,final IServiceResultListener<String> resultListener){
         call.enqueue(new Callback<ResponseBody>() {
             @Override

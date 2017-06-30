@@ -3,10 +3,13 @@ package com.projet.esgi.android_forum;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.projet.esgi.android_forum.model.Comment;
 import com.projet.esgi.android_forum.model.Topic;
 import com.projet.esgi.android_forum.model.User;
 import com.projet.esgi.android_forum.service.api.AuthService;
+import com.projet.esgi.android_forum.service.api.CommentService;
 import com.projet.esgi.android_forum.service.api.GenericService;
+import com.projet.esgi.android_forum.service.api.HttpBasicAuth;
 import com.projet.esgi.android_forum.service.api.UserService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceException;
@@ -46,8 +49,8 @@ public class RFTest {
         syncObject = new Object();
         UserService us = new UserService();
         // Si on utilise un email+password déjà existant, l'api ne répond pas => SocketTimedOutException
-        User u = new User(1, "bar@foo.com", "bar", "foo", "quux");
-        us.create(u, new MyUserServiceListener());
+        User u = new User("bar@foo.com", "bar", "foo", "quux");
+        us.create(u, new MyStringServiceListener());
         synchronized (syncObject){
             syncObject.wait();
         }
@@ -64,14 +67,14 @@ public class RFTest {
     public void login() throws Exception{
         syncObject = new Object();
         AuthService auth = new AuthService();
-        User u = new User(1, "bar@foo.com", "bar", "foo", "quux");
+        User u = new User("bar@foo.com", "bar", "foo", "quux");
         System.out.println(u.toString());
-        auth.login(u, new MyUserServiceListener());
+        auth.login(u, new MyStringServiceListener());
         synchronized (syncObject){
             syncObject.wait();
         }
         System.out.println(exception);
-        assertTrue(AuthService.TOKEN != null);
+        assertTrue(HttpBasicAuth.getToken() != null);
     }
 
     /**
@@ -81,10 +84,27 @@ public class RFTest {
     @Test
     public void genericity() throws Exception{
         GenericService<Topic> service = new GenericService<Topic>(Topic.class);
-        service.create(new Topic(), new MyUserServiceListener());
+        service.create(new Topic(), new MyStringServiceListener());
     }
 
+    @Test
+    public void createComment() throws Exception{
+        syncObject = new Object();
+        CommentService service = new CommentService();
+        // Si on utilise un email+password déjà existant, l'api ne répond pas => SocketTimedOutException
+        Comment comment = new Comment();
+        service.create(comment, new MyStringServiceListener());
+        synchronized (syncObject){
+            syncObject.wait();
+        }
 
+        if(exception != null){
+            System.out.println(exception);
+            assertTrue(exception.getCode() == 200);
+        }else{
+            assertTrue(mDataStr != null && mDataStr.contains("users"));
+        }
+    }
 
     class MyLogin implements IServiceResultListener<String> {
 
@@ -94,7 +114,7 @@ public class RFTest {
         }
     }
 
-    class MyUserServiceListener implements IServiceResultListener<String> {
+    class MyStringServiceListener implements IServiceResultListener<String> {
         @Override
         public void onResult(ServiceResult<String> result) {
             System.out.println("onResult");

@@ -3,6 +3,9 @@ package com.projet.esgi.android_forum.model;
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
 
+import java.util.Date;
+import java.util.UUID;
+
 import io.realm.RealmModel;
 import io.realm.RealmObject;
 
@@ -14,17 +17,21 @@ public class News extends PersistedModel implements RealmModel {
 
     private  String title;
     private String content;
-    private String date;
+    private Date date;
 
     public News(){
 
     }
 
-    public News(int id, String title, String content, String date){
+    public News(String title, String content) {
+        this(UUID.randomUUID().toString(), title, content);
+    }
+
+    public News(String id, String title, String content){
         super(id);
         this.title = title;
         this.content = content;
-        this.date = date;
+        this.date = new Date();
     }
 
     public String getTitle() {
@@ -43,11 +50,11 @@ public class News extends PersistedModel implements RealmModel {
         this.content = content;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

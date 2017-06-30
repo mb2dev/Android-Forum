@@ -5,8 +5,10 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.projet.esgi.android_forum.Constants;
+import com.projet.esgi.android_forum.service.api.HttpBasicAuth;
 import com.projet.esgi.android_forum.service.rfabstract.Exclude;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -17,12 +19,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Session {
     private static Retrofit retrofit;
     private static Gson gson;
+    private static OkHttpClient client;
+    public static final String TOKEN = null;
 
     public static Retrofit getDefault(){
         if(retrofit == null){
             retrofit = new Retrofit.Builder()
                     .baseUrl(Constants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(getGson()))
+                    .client(getClient())
                     .build();
         }
         return retrofit;
@@ -64,5 +69,14 @@ public class Session {
             gson = builder.create();
         }
         return gson;
+    }
+
+    private static OkHttpClient getClient(){
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .addInterceptor(new HttpBasicAuth())
+                    .build();
+        }
+        return client;
     }
 }

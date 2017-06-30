@@ -29,7 +29,6 @@ public class AuthService implements IAuthService {
 
     private static final String TAG = AuthService.class.getName();
 
-    public static String TOKEN = null;
     private IRFAuthService mRfService;
     private IRFAuthService getRfService(){
         if(mRfService == null)
@@ -48,7 +47,7 @@ public class AuthService implements IAuthService {
                     ResponseBody body = response.body();
                     String token = body.toString();
                     result.setData(token);
-                    AuthService.TOKEN = token;
+                    HttpBasicAuth.setToken(token);
                 }else {
                     result.setError(new ServiceException(response.code()));
                 }
