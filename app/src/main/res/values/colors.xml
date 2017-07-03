@@ -4,4 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#000</color>
     <color name="colorBase">#18d3e4</color>
+
+
+    <color name="colorTopic">#2196F3</color>
+    <color name="colorNews">#FF9800</color>
+    <color name="colorProfil">#673AB7</color>
+
+    <color name="translucent_grey">#55cccccc</color>
+    <color name="white">#FFF</color>
 </resources>

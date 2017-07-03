@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/tab_topic"
+        icon="@drawable/ic_topic"
+        barColorWhenSelected="@color/colorTopic"
+        title="@string/topic"/>
+    <tab
+        id="@+id/tab_news"
+        icon="@drawable/ic_news"
+        barColorWhenSelected="@color/colorNews"
+        title="@string/news" />
+    <tab
+        id="@+id/tab_profile"
+        icon="@drawable/ic_user"
+        barColorWhenSelected="@color/colorProfil"
+        title="@string/profile" />
+</tabs>
