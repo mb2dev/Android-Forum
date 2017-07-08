@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.R;
-import com.projet.esgi.android_forum.model.Topic;
-import com.projet.esgi.android_forum.service.api.TopicService;
+import com.projet.esgi.android_forum.model.User;
+import com.projet.esgi.android_forum.service.api.UserService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 
@@ -19,18 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Mickael on 02/07/2017.
+ * Created by Mickael on 08/07/2017.
  */
 
-public class TopicFragment extends Fragment implements ItemClickListener {
+public class UserFragment extends Fragment implements ItemClickListener {
 
     private RecyclerView recyclerView;
-    private MyAdapterTopic mAdapter;
+    private List<User> userList = new ArrayList<>();
+    private MyAdapterUser mAdapter;
 
-    private List<Topic> topicList = new ArrayList<>();
 
 
-    public TopicFragment(){
+    public UserFragment(){
 
     }
 
@@ -40,23 +40,24 @@ public class TopicFragment extends Fragment implements ItemClickListener {
 
         final View view = inflater.inflate(R.layout.topic_fragment, container, false);
 
-        final TopicService topicService = new TopicService();
+        final UserService userService = new UserService();
 
-        topicService.list(new IServiceResultListener<List<Topic>>() {
+        userService.list(new IServiceResultListener<List<User>>() {
             @Override
-            public void onResult(ServiceResult<List<Topic>> result) {
+            public void onResult(ServiceResult<List<User>> result) {
                 if(result.getError()!=null){
                     System.out.println("error " + result.getError());
                 }
                 else{
                     System.out.println("result " + result.getData());
-                    topicList = result.getData();
-                    System.out.println("result " +  topicList.get(0).getTitle());
+                    userList = result.getData();
+
                     recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    mAdapter = new MyAdapterTopic(topicList);
+                    mAdapter = new MyAdapterUser(userList);
                     recyclerView.setAdapter(mAdapter);
-                    mAdapter.setClickListener(TopicFragment.this);
+                    mAdapter.setClickListener(UserFragment.this);
                 }
             }
         });
@@ -65,9 +66,7 @@ public class TopicFragment extends Fragment implements ItemClickListener {
     }
 
     @Override
-    public void onClick(View view, int position)
-    {
-
+    public void onClick(View view, int position) {
         System.out.println("Position : "+ position);
     }
 }

@@ -1,28 +1,22 @@
 package com.projet.esgi.android_forum;
 
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.provider.Settings;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,14 +24,20 @@ import android.widget.LinearLayout;
 
 import com.kelin.translucentbar.library.TranslucentBarManager;
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
-import com.projet.esgi.android_forum.Dialog.CustomDialog;
-import com.projet.esgi.android_forum.fragment.BlankFragment;
+import com.projet.esgi.android_forum.fragment.MyAdapterTopic;
+import com.projet.esgi.android_forum.fragment.NewFragment;
 import com.projet.esgi.android_forum.fragment.TopicFragment;
+import com.projet.esgi.android_forum.fragment.UserFragment;
+import com.projet.esgi.android_forum.model.News;
+import com.projet.esgi.android_forum.model.Topic;
+import com.projet.esgi.android_forum.service.api.NewsService;
+import com.projet.esgi.android_forum.service.api.TopicService;
+import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
+import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class listActivity extends AppCompatActivity implements ItemClickListener {
@@ -100,52 +100,31 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
                     ft.replace(R.id.main_fragment, new TopicFragment());
                     ft.commitAllowingStateLoss();
                     setThemeApp( R.color.colorTopic, R.drawable.ic_topic);
+                    addTopic();
 
                 }
                 else if (tabId == R.id.tab_news) {
                     final FragmentManager supportFragmentManager = getSupportFragmentManager();
                     FragmentTransaction ft = supportFragmentManager.beginTransaction();
-                    ft.replace(R.id.main_fragment, new BlankFragment());
+                    ft.replace(R.id.main_fragment, new NewFragment());
                     ft.commitAllowingStateLoss();
                     setThemeApp( R.color.colorNews, R.drawable.ic_news);
+                    addNew();
 
                 }
                 else if (tabId == R.id.tab_profile) {
                     translucentBarManager.translucent(listActivity.this, R.color.colorProfil);
                     floatingActionButton.hide();
+                    FragmentTransaction ft = supportFragmentManager.beginTransaction();
+                    ft.replace(R.id.main_fragment, new UserFragment());
+                    ft.commitAllowingStateLoss();
                     //floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorProfil)));
 
                 }
             }
         });
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-
-                //btnAdd.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorTopic));
-               // btnCancel.setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.colorTopic));
-
-
-                // set the custom dialog components - text, image and button
-                /*TextView text = (TextView) dialog.findViewById(R.id.text);
-                text.setText("Android custom dialog example!");
-                ImageView image = (ImageView) dialog.findViewById(R.id.image);
-                image.setImageResource(R.drawable.ic_launcher);
-
-                Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });*/
-
-                dialog.show();
-            }
-        });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,19 +147,75 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
     private void setThemeApp(int color, int drawableImg){
         translucentBarManager.translucent(listActivity.this, color);
         floatingActionButton.show();
-
         LayerDrawable bgDrawable = (LayerDrawable)header.getBackground();
         GradientDrawable shape = (GradientDrawable)   bgDrawable.findDrawableByLayerId(R.id.item_shape);
         shape.setColor(ContextCompat.getColor(getApplicationContext(),color));
-
-
         img.setBackgroundResource(drawableImg);
-
-
         floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(),color)));
         btnAdd.setTextColor(ContextCompat.getColor(getApplicationContext(),color));
         btnCancel.setTextColor(ContextCompat.getColor(getApplicationContext(),color));
     }
+
+    private void addTopic(){
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TopicService topicService = new TopicService();
+                        Topic topic = new Topic();
+                        topic.setTitle(editTitle.getText().toString());
+                        topic.setContent(editDescription.getText().toString());
+                        topicService.create(topic, new IServiceResultListener<String>() {
+                            @Override
+                            public void onResult(ServiceResult<String> result) {
+                                if(result.getError()!=null){
+                                    System.out.println("error " + result.getError());
+                                }
+                                else{
+                                    System.out.println("result " + result.getData());
+                                }
+                            }
+                        });
+
+                    }
+                });
+                dialog.show();
+            }
+        });
+    }
+
+    private void addNew(){
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        NewsService newsService = new NewsService();
+                        News news = new News();
+                        news.setTitle(editTitle.getText().toString());
+                        news.setContent(editDescription.getText().toString());
+
+                        newsService.create(news, new IServiceResultListener<String>() {
+                            @Override
+                            public void onResult(ServiceResult<String> result) {
+                                if(result.getError()!=null){
+                                    System.out.println("error " + result.getError());
+                                }
+                                else{
+                                    System.out.println("result " + result.getData());
+                                }
+                            }
+                        });
+                    }
+                });
+                dialog.show();
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
