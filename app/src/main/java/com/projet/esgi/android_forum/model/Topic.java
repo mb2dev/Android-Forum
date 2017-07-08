@@ -1,35 +1,37 @@
 package com.projet.esgi.android_forum.model;
 
+import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
+import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
+
+import java.util.Date;
+import java.util.UUID;
+
+import io.realm.RealmModel;
 import io.realm.RealmObject;
 
 /**
  * Created by Mickael on 28/06/2017.
  */
 
-public class Topic extends RealmObject {
+public class Topic extends PersistedModel implements RealmModel {
 
-    private int id;
     private String title;
     private String content;
-    private String date;
+    private Date date;
 
     public Topic(){
 
     }
 
-    public Topic(int id,String title, String content, String date){
-        this.id = id;
+    public Topic(String title, String content) {
+        this(UUID.randomUUID().toString(), title, content);
+    }
+
+    public Topic(String id, String title, String content){
+        super(id);
         this.title = title;
         this.content = content;
-        this.date = date;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.date = new Date();
     }
 
     public String getTitle() {
@@ -48,12 +50,17 @@ public class Topic extends RealmObject {
         this.content = content;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String getModelNameForUrlPath() {
+        return "topics";
     }
 }
 

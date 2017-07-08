@@ -1,38 +1,41 @@
 package com.projet.esgi.android_forum.model;
 
+import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
+import com.projet.esgi.android_forum.service.rfabstract.Exclude;
+import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
+
+import java.util.Date;
+import java.util.UUID;
+
+import io.realm.RealmList;
+import io.realm.RealmModel;
 import io.realm.RealmObject;
 
 /**
  * Created by Mickael on 28/06/2017.
  */
 
-public class Comment extends RealmObject {
+public class Comment extends PersistedModel implements RealmModel {
 
-
-    private int id;
     private String title;
     private String content;
-    private String news;
-    private String date;
+    private RealmList<News> news;
+    private Date date;
 
     public Comment(){
 
     }
 
-    public Comment(int id, String title, String content, String news, String data){
-        this.id = id;
+    public Comment(String title, String content) {
+        this(UUID.randomUUID().toString(), title, content);
+    }
+
+    public Comment(String id, String title, String content){
+        super(id);
         this.title = title;
         this.content = content;
-        this.news = news;
-        this.date = data;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.news = new RealmList<News>();
+        this.date = new Date();
     }
 
     public String getTitle() {
@@ -51,19 +54,24 @@ public class Comment extends RealmObject {
         this.content = content;
     }
 
-    public String getNews() {
+    public RealmList<News> getNews() {
         return news;
     }
 
-    public void setNews(String news) {
+    public void setNews(RealmList<News> news) {
         this.news = news;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public String getModelNameForUrlPath() {
+        return "comments";
     }
 }
