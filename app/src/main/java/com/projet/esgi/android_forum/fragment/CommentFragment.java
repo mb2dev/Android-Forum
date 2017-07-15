@@ -126,6 +126,7 @@ public class CommentFragment extends Fragment implements ItemClickListener,  INo
                             else{
                                 System.out.println("result " + result.getData());
                             }
+
                             mydialog.dismiss();
                         }
                     });

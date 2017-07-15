@@ -2,11 +2,16 @@ package com.projet.esgi.android_forum.Dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.projet.esgi.android_forum.Constant;
@@ -28,6 +33,8 @@ public class CustomDialog extends Dialog {
     private EditText content;
     private String type;
     private Context context;
+    private LinearLayout header;
+    private ImageView img;
 
     // This is my interface //
     public interface myOnClickListener {
@@ -54,14 +61,30 @@ public class CustomDialog extends Dialog {
         super.onCreate(savedInstanceState);
         btnCancel = (Button) findViewById(R.id.btn_cancel);
         btnAdd = (Button) findViewById(R.id.btn_add);
+        header = (LinearLayout) findViewById(R.id.linear_header_dialog);
+        img = (ImageView) findViewById(R.id.img_header_dialog);
 
         if(type.equals(Constant.TYPE_TOPIC) || type.equals(Constant.TYPE_POST)){
             btnAdd.setTextColor(ContextCompat.getColor(context,R.color.colorTopic));
             btnCancel.setTextColor(ContextCompat.getColor(context,R.color.colorTopic));
+            LayerDrawable bgDrawable = (LayerDrawable)header.getBackground();
+            GradientDrawable shape = (GradientDrawable)   bgDrawable.findDrawableByLayerId(R.id.item_shape);
+            shape.setColor(ContextCompat.getColor(context,R.color.colorTopic));
+            img.setBackgroundResource(R.drawable.topic);
+            ViewGroup.LayoutParams params = img.getLayoutParams();
+            params.height = 150;
+            params.width = 150;
         }
         else if(type.equals(Constant.TYPE_NEWS) || type.equals(Constant.TYPE_COMMENT)){
             btnAdd.setTextColor(ContextCompat.getColor(context, R.color.colorNews));
             btnCancel.setTextColor(ContextCompat.getColor(context, R.color.colorNews));
+            LayerDrawable bgDrawable = (LayerDrawable)header.getBackground();
+            GradientDrawable shape = (GradientDrawable)   bgDrawable.findDrawableByLayerId(R.id.item_shape);
+            shape.setColor(ContextCompat.getColor(context,R.color.colorNews));
+            img.setBackgroundResource(R.drawable.news);
+            ViewGroup.LayoutParams params = img.getLayoutParams();
+            params.height = 150;
+            params.width = 150;
         }
 
 

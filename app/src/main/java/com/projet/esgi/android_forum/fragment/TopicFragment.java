@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterTopic;
@@ -35,6 +36,7 @@ public class TopicFragment extends Fragment implements ItemClickListener, INotif
     private List<Topic> topicList = new ArrayList<>();
     private  CustomDialog mydialog;
     private TopicService topicService;
+    private Button btnUpdate, btnDelete;
 
 
     public TopicFragment(){
@@ -46,6 +48,8 @@ public class TopicFragment extends Fragment implements ItemClickListener, INotif
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.topic_fragment, container, false);
+
+
         topicService = new TopicService();
         topicService.list(new IServiceResultListener<List<Topic>>() {
             @Override
@@ -108,6 +112,7 @@ public class TopicFragment extends Fragment implements ItemClickListener, INotif
                             else{
                                 System.out.println("result " + result.getData());
                             }
+                            mAdapter.notifyDataSetChanged();
                             mydialog.dismiss();
                         }
                     });

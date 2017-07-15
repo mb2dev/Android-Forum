@@ -50,17 +50,13 @@ public class listActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     Dialog dialog;
     ProgressDialog pd;
-    private INotifyFragment notifyFragment;
-
-    @BindView(R.id.btn_add)
     Button btnAdd;
-    @BindView(R.id.btn_cancel)
     Button btnCancel;
     ImageView img;
-    @BindView(R.id.linear_header_dialog)
     LinearLayout header;
     EditText editTitle;
     EditText editDescription;
+
 
 
     @Override
@@ -87,12 +83,16 @@ public class listActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.custom_dialog);
 
 
+
+
         btnAdd = (Button) dialog.findViewById(R.id.btn_add) ;
         btnCancel = (Button) dialog.findViewById(R.id.btn_cancel) ;
         header = (LinearLayout) dialog.findViewById(R.id.linear_header_dialog);
         img = (ImageView) dialog.findViewById(R.id.img_header_dialog);
         editTitle= (EditText) dialog.findViewById(R.id.dialog_title) ;
         editDescription = (EditText) dialog.findViewById(R.id.dialog_description);
+
+
 
 
 
@@ -122,6 +122,8 @@ public class listActivity extends AppCompatActivity {
                 else if (tabId == R.id.tab_profile) {
                     translucentBarManager.translucent(listActivity.this, R.color.colorProfil);
                     floatingActionButton.hide();
+                    btnAdd.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorProfil));
+                    btnCancel.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorProfil));
                     FragmentTransaction ft = supportFragmentManager.beginTransaction();
                     ft.replace(R.id.main_fragment, new UserFragment());
                     ft.commitAllowingStateLoss();

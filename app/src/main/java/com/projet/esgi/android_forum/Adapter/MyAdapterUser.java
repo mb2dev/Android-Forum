@@ -1,9 +1,11 @@
 package com.projet.esgi.android_forum.Adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.projet.esgi.android_forum.R;
@@ -54,13 +56,19 @@ public class MyAdapterUser extends RecyclerView.Adapter<MyAdapterUser.MyViewHold
 
         private TextView textViewView;
         private TextView textViewDescription;
+        private Button btnDelete;
+        private Button btnUpdate;
 
 
         //itemView est la vue correspondante à 1 cellule
         public MyViewHolder(View itemView) {
             super(itemView);
             textViewView = (TextView) itemView.findViewById(R.id.info_text);
-            textViewDescription = (TextView) itemView.findViewById(R.id.info_description) ;
+            textViewDescription = (TextView) itemView.findViewById(R.id.info_description);
+            btnDelete = (Button) itemView.findViewById(R.id.btn_update);
+            btnUpdate = (Button) itemView.findViewById(R.id.btn_delete);
+            btnDelete.setVisibility(View.INVISIBLE);
+            btnUpdate.setVisibility(View.INVISIBLE);
             itemView.setOnClickListener(this);
 
         }

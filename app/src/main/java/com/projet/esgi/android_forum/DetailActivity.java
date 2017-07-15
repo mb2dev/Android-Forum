@@ -46,13 +46,9 @@ public class DetailActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     Dialog dialog;
     ProgressDialog pd;
-
-    @BindView(R.id.btn_add)
     Button btnAdd;
-    @BindView(R.id.btn_cancel)
     Button btnCancel;
     ImageView img;
-    @BindView(R.id.linear_header_dialog)
     LinearLayout header;
     EditText editTitle;
     EditText editDescription;
