@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.Comment;
+import com.projet.esgi.android_forum.model.Topic;
 
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class MyAdapterComment extends RecyclerView.Adapter<MyAdapterComment.MyVi
             btnDelete.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorNews));
             btnUpdate.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorNews));
             itemView.setOnClickListener(this);
+
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,7 +88,6 @@ public class MyAdapterComment extends RecyclerView.Adapter<MyAdapterComment.MyVi
 
         }
 
-
         public void bind(Comment myObject){
             textViewView.setText(myObject.getTitle());
             textViewDescription.setText(myObject.getContent());
@@ -96,5 +97,16 @@ public class MyAdapterComment extends RecyclerView.Adapter<MyAdapterComment.MyVi
         public void onClick(View view) {
             if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
         }
+    }
+
+    public void removeAt(int position) {
+        System.out.println("remove at " + position);
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(Comment item) {
+        list.add(item);
+        notifyDataSetChanged();
     }
 }

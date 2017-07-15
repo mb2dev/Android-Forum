@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.Post;
+import com.projet.esgi.android_forum.model.Topic;
 
 import java.util.List;
 
@@ -105,6 +106,17 @@ public class MyAdapterPost extends RecyclerView.Adapter<MyAdapterPost.MyViewHold
         public void onClick(View view) {
             if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
         }
+    }
+
+    public void removeAt(int position) {
+        System.out.println("remove at " + position);
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(Post item) {
+        list.add(item);
+        notifyDataSetChanged();
     }
 }
 

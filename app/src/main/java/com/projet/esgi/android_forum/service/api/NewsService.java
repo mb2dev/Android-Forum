@@ -53,7 +53,7 @@ public class NewsService implements IGenericService<News> {
 
     @Override
     public void delete(News model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultDelete(getRfService().delete(""+model.getId()), resultListener);
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class NewsService implements IGenericService<News> {
 
     @Override
     public void update(News model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
+        getRFHelper().getDefaultUpdate(getRfService().update(""+model.get_id(), model), resultListener);
     }
 
 

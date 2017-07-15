@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
+import com.projet.esgi.android_forum.fragment.INotifyFragment;
 import com.projet.esgi.android_forum.model.User;
 import com.projet.esgi.android_forum.service.api.AuthService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.logIn) Button logIn;
     private EditText email;
     private EditText password;
-    private int progressStatus = 0;
+    private INotifyFragment notifyFragment;
 
 
     @Override

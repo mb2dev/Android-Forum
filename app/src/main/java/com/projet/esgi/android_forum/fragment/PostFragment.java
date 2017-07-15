@@ -29,7 +29,7 @@ import java.util.List;
  * Created by Mickael on 11/07/2017.
  */
 
-public class PostFragment extends Fragment implements ItemClickListener {
+public class PostFragment extends Fragment implements ItemClickListener, INotifyFragment<Post> {
 
     private RecyclerView recyclerView;
     private MyAdapterPost mAdapter;
@@ -92,12 +92,20 @@ public class PostFragment extends Fragment implements ItemClickListener {
     }
 
     @Override
-    public void onClick(final View view, int position)
+    public void onClick(final View view, final int position)
     {
         System.out.println("click " + view.getId() + ' '+ R.id.btn_update );
 
         if(view.getId() == R.id.btn_delete){
-            System.out.println("on delete");
+           postService.delete(postList.get(position), new IServiceResultListener<Boolean>() {
+                @Override
+                public void onResult(ServiceResult<Boolean> result) {
+                    if(result.getError()!=null){
+                        System.out.println("error : " + result.getError().getMessage());
+                    }
+                    mAdapter.removeAt(position);
+                }
+            });
         }
         if (view.getId() ==R.id.btn_update){
             System.out.println("on Update");
@@ -122,6 +130,7 @@ public class PostFragment extends Fragment implements ItemClickListener {
                             else{
                                 System.out.println("result " + result.getData());
                             }
+                            mydialog.dismiss();
                         }
                     });
                 }
@@ -129,5 +138,10 @@ public class PostFragment extends Fragment implements ItemClickListener {
             mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_POST,PostSelected.getTitle(), PostSelected.getContent());
             mydialog.show();
         }
+    }
+
+    @Override
+    public void notifyAddItem(Post post) {
+        mAdapter.addItem(post);
     }
 }

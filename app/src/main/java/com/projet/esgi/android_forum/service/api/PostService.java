@@ -55,7 +55,7 @@ public class PostService implements IGenericService<Post> {
 
     @Override
     public void delete(Post model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultDelete(getRfService().delete(""+model.getId()), resultListener);
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class PostService implements IGenericService<Post> {
 
     @Override
     public void update(Post model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
+        getRFHelper().getDefaultUpdate(getRfService().update(""+model.get_id(), model), resultListener);
     }
 
     public void listCriteria(String criteria, final IServiceResultListener<List<Post>> resultListener) {

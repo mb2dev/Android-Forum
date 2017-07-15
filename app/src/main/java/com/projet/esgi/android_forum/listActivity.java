@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import com.kelin.translucentbar.library.TranslucentBarManager;
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
+import com.projet.esgi.android_forum.fragment.INotifyFragment;
 import com.projet.esgi.android_forum.fragment.NewFragment;
 import com.projet.esgi.android_forum.fragment.TopicFragment;
 import com.projet.esgi.android_forum.fragment.UserFragment;
@@ -49,6 +50,7 @@ public class listActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     Dialog dialog;
     ProgressDialog pd;
+    private INotifyFragment notifyFragment;
 
     @BindView(R.id.btn_add)
     Button btnAdd;
@@ -67,6 +69,7 @@ public class listActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scrolling);
         initActionBar();
         pd = new ProgressDialog(listActivity.this);
+
 
         final FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = supportFragmentManager.beginTransaction();
@@ -106,7 +109,6 @@ public class listActivity extends AppCompatActivity {
                     ft.commitAllowingStateLoss();
                     setThemeApp( R.color.colorTopic, R.drawable.ic_topic);
                     addTopic();
-
                 }
                 else if (tabId == R.id.tab_news) {
                     final FragmentManager supportFragmentManager = getSupportFragmentManager();
@@ -123,6 +125,7 @@ public class listActivity extends AppCompatActivity {
                     FragmentTransaction ft = supportFragmentManager.beginTransaction();
                     ft.replace(R.id.main_fragment, new UserFragment());
                     ft.commitAllowingStateLoss();
+
 
                 }
             }
@@ -169,9 +172,8 @@ public class listActivity extends AppCompatActivity {
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         TopicService topicService = new TopicService();
-                        Topic topic = new Topic();
+                        final Topic topic = new Topic();
                         topic.setTitle(editTitle.getText().toString());
                         topic.setContent(editDescription.getText().toString());
                         pd.show();
@@ -182,6 +184,9 @@ public class listActivity extends AppCompatActivity {
                                     System.out.println("error " + result.getError());
                                 }
                                 else{
+
+                                    TopicFragment topicFragment = (TopicFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                                    topicFragment.notifyAddItem(topic);
                                     System.out.println("result " + result.getData());
                                 }
                                 pd.dismiss();
@@ -204,7 +209,7 @@ public class listActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         NewsService newsService = new NewsService();
-                        News news = new News();
+                        final News news = new News();
                         news.setTitle(editTitle.getText().toString());
                         news.setContent(editDescription.getText().toString());
                         pd.show();
@@ -217,6 +222,8 @@ public class listActivity extends AppCompatActivity {
                                     System.out.println("error " + result.getError());
                                 }
                                 else{
+                                    NewFragment newsFragment = (NewFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                                    newsFragment.notifyAddItem(news);
                                     System.out.println("result " + result.getData());
                                 }
                                 pd.dismiss();

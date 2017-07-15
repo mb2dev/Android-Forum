@@ -72,7 +72,7 @@ public class CommentService implements IGenericService<Comment> {
 
     @Override
     public void update(Comment model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
+        getRFHelper().getDefaultUpdate(getRfService().update(""+model.get_id(), model), resultListener);
     }
 
     public void search(Map<String, String> queries, final IServiceResultListener<List<Comment>> resultListener){

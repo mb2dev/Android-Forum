@@ -5,20 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterTopic;
 import com.projet.esgi.android_forum.Constant;
 import com.projet.esgi.android_forum.DetailActivity;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
-import com.projet.esgi.android_forum.MainActivity;
 import com.projet.esgi.android_forum.R;
-import com.projet.esgi.android_forum.listActivity;
 import com.projet.esgi.android_forum.model.Topic;
 import com.projet.esgi.android_forum.service.api.TopicService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
@@ -26,13 +22,12 @@ import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by Mickael on 02/07/2017.
  */
 
-public class TopicFragment extends Fragment implements ItemClickListener {
+public class TopicFragment extends Fragment implements ItemClickListener, INotifyFragment<Topic> {
 
     private RecyclerView recyclerView;
     private MyAdapterTopic mAdapter;
@@ -78,15 +73,20 @@ public class TopicFragment extends Fragment implements ItemClickListener {
     }
 
     @Override
-    public void onClick(final View view, int position)
+    public void onClick(final View view, final int position)
     {
-        System.out.println("click " + view.getId() + ' '+ R.id.btn_update );
-
         if(view.getId() == R.id.btn_delete){
-            System.out.println("on delete");
+            topicService.delete(topicList.get(position), new IServiceResultListener<Boolean>() {
+                @Override
+                public void onResult(ServiceResult<Boolean> result) {
+                    if(result.getError()!=null){
+                        System.out.println("error : " + result.getError().getMessage());
+                    }
+                    mAdapter.removeAt(position);
+                }
+            });
         }
-        if (view.getId() ==R.id.btn_update){
-            System.out.println("on Update");
+        else if (view.getId() ==R.id.btn_update){
             final Topic topicSelected = topicList.get(position);
 
             myListener = new CustomDialog.myOnClickListener() {
@@ -99,7 +99,6 @@ public class TopicFragment extends Fragment implements ItemClickListener {
                 public void onButtonUpdate(String title, String content) {
                     topicSelected.setTitle(title);
                     topicSelected.setContent(content);
-                    System.out.println("topicSelected" + topicSelected.toString());
                     topicService.update(topicSelected, new IServiceResultListener<Boolean>() {
                         @Override
                         public void onResult(ServiceResult<Boolean> result) {
@@ -109,6 +108,7 @@ public class TopicFragment extends Fragment implements ItemClickListener {
                             else{
                                 System.out.println("result " + result.getData());
                             }
+                            mydialog.dismiss();
                         }
                     });
                 }
@@ -122,5 +122,10 @@ public class TopicFragment extends Fragment implements ItemClickListener {
             intent.putExtra("TYPE", "post");
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void notifyAddItem(Topic topic) {
+        mAdapter.addItem(topic);
     }
 }

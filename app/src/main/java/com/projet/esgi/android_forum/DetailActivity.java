@@ -157,7 +157,7 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         PostService postService = new PostService();
-                        Post post = new Post();
+                        final Post post = new Post();
                         post.setTitle(editTitle.getText().toString());
                         post.setContent(editDescription.getText().toString());
                         post.setTopic(id);
@@ -170,6 +170,8 @@ public class DetailActivity extends AppCompatActivity {
                                     System.out.println("error " + result.getError());
                                 }
                                 else {
+                                    PostFragment postFragment = (PostFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                                    postFragment.notifyAddItem(post);
                                     System.out.println("result " + result.getData());
                                 }
                                 pd.dismiss();
@@ -194,7 +196,7 @@ public class DetailActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         CommentService commentService = new CommentService();
-                        Comment comment = new Comment();
+                        final Comment comment = new Comment();
                         comment.setTitle(editTitle.getText().toString());
                         comment.setContent(editDescription.getText().toString());
                         comment.setNews(id);
@@ -207,6 +209,8 @@ public class DetailActivity extends AppCompatActivity {
                                     System.out.println("error " + result.getError());
                                 }
                                 else {
+                                    CommentFragment commentFragment = (CommentFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+                                    commentFragment.notifyAddItem(comment);
                                     System.out.println("result " + result.getData());
                                 }
                                 pd.dismiss();

@@ -17,6 +17,7 @@ import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.News;
 import com.projet.esgi.android_forum.model.Post;
+import com.projet.esgi.android_forum.model.Topic;
 import com.projet.esgi.android_forum.service.api.NewsService;
 import com.projet.esgi.android_forum.service.api.TopicService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class NewFragment extends Fragment implements ItemClickListener {
+public class NewFragment extends Fragment implements ItemClickListener,  INotifyFragment<News> {
 
     private RecyclerView recyclerView;
     private List<News> newList = new ArrayList<>();
@@ -69,14 +70,22 @@ public class NewFragment extends Fragment implements ItemClickListener {
     }
 
     @Override
-    public void onClick(final View view, int position)
+    public void onClick(final View view, final int position)
     {
         System.out.println("click " + view.getId() + ' '+ R.id.btn_update );
 
         if(view.getId() == R.id.btn_delete){
-            System.out.println("on delete");
+            newsService.delete(newList.get(position), new IServiceResultListener<Boolean>() {
+                @Override
+                public void onResult(ServiceResult<Boolean> result) {
+                    if(result.getError()!=null){
+                        System.out.println("error : " + result.getError().getMessage());
+                    }
+                    mAdapter.removeAt(position);
+                }
+            });
         }
-        if (view.getId() ==R.id.btn_update){
+        else if (view.getId() ==R.id.btn_update){
             System.out.println("on Update");
             final News newsSelected = newList.get(position);
 
@@ -99,6 +108,7 @@ public class NewFragment extends Fragment implements ItemClickListener {
                             else{
                                 System.out.println("result " + result.getData());
                             }
+                            mydialog.dismiss();
                         }
                     });
                 }
@@ -111,5 +121,10 @@ public class NewFragment extends Fragment implements ItemClickListener {
             intent.putExtra("TYPE", "comment");
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void notifyAddItem(News news) {
+        mAdapter.addItem(news);
     }
 }

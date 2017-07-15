@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.News;
+import com.projet.esgi.android_forum.model.Topic;
 
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class MyAdapterNew extends RecyclerView.Adapter<MyAdapterNew.MyViewHolder
             btnDelete.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorNews));
             btnUpdate.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorNews));
             itemView.setOnClickListener(this);
+
             /*btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -108,6 +110,17 @@ public class MyAdapterNew extends RecyclerView.Adapter<MyAdapterNew.MyViewHolder
         public void onClick(View view) {
             if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
         }
+    }
+
+    public void removeAt(int position) {
+        System.out.println("remove at " + position);
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(News item) {
+        list.add(item);
+        notifyDataSetChanged();
     }
 }
 

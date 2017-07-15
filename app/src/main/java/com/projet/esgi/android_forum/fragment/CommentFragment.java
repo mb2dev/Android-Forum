@@ -15,9 +15,7 @@ import com.projet.esgi.android_forum.Constant;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.Comment;
-import com.projet.esgi.android_forum.model.News;
 import com.projet.esgi.android_forum.service.api.CommentService;
-import com.projet.esgi.android_forum.service.api.NewsService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 
@@ -28,7 +26,7 @@ import java.util.List;
  * Created by Mickael on 11/07/2017.
  */
 
-public class CommentFragment extends Fragment implements ItemClickListener {
+public class CommentFragment extends Fragment implements ItemClickListener,  INotifyFragment<Comment> {
 
     private RecyclerView recyclerView;
     private List<Comment> commentList = new ArrayList<>();
@@ -89,12 +87,21 @@ public class CommentFragment extends Fragment implements ItemClickListener {
     }
 
     @Override
-    public void onClick(final View view, int position)
+    public void onClick(final View view, final int position)
     {
         System.out.println("click " + view.getId() + ' '+ R.id.btn_update );
 
         if(view.getId() == R.id.btn_delete){
-            System.out.println("on delete");
+
+            commentService.delete(commentList.get(position), new IServiceResultListener<Boolean>() {
+                @Override
+                public void onResult(ServiceResult<Boolean> result) {
+                    if(result.getError()!=null){
+                        System.out.println("error : " + result.getError().getMessage());
+                    }
+                    mAdapter.removeAt(position);
+                }
+            });
         }
         if (view.getId() ==R.id.btn_update){
             System.out.println("on Update");
@@ -119,6 +126,7 @@ public class CommentFragment extends Fragment implements ItemClickListener {
                             else{
                                 System.out.println("result " + result.getData());
                             }
+                            mydialog.dismiss();
                         }
                     });
                 }
@@ -126,6 +134,11 @@ public class CommentFragment extends Fragment implements ItemClickListener {
             mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_COMMENT,commentSelected.getTitle(), commentSelected.getContent());
             mydialog.show();
         }
+    }
+
+    @Override
+    public void notifyAddItem(Comment comment) {
+        mAdapter.addItem(comment);
     }
 }
 

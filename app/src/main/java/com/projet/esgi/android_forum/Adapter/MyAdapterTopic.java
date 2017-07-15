@@ -45,6 +45,7 @@ public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHo
         return list.size();
     }
 
+
     public void setClickListener(ItemClickListener itemClickListener) {
         this.clickListener = itemClickListener;
     }
@@ -70,14 +71,6 @@ public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHo
             btnUpdate.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorTopic));
             itemView.setOnClickListener(this);
 
-            /*btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   list.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-
-                }
-            });*/
 
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -114,6 +107,21 @@ public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHo
            // }
         }
     }
+
+    public void removeAt(int position) {
+        System.out.println("remove at " + position);
+        list.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void addItem(Topic item) {
+        list.add(item);
+        notifyDataSetChanged();
+    }
+
+
+
+
 }
 
 
