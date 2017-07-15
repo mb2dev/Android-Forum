@@ -17,9 +17,10 @@ import io.realm.RealmObject;
 
 public class Comment extends PersistedModel implements RealmModel {
 
+    private String _id;
     private String title;
     private String content;
-    private RealmList<News> news;
+    private String news;
     private Date date;
 
     public Comment(){
@@ -34,8 +35,16 @@ public class Comment extends PersistedModel implements RealmModel {
         super(id);
         this.title = title;
         this.content = content;
-        this.news = new RealmList<News>();
+        //this.news = new RealmList<News>();
         this.date = new Date();
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTitle() {
@@ -54,13 +63,22 @@ public class Comment extends PersistedModel implements RealmModel {
         this.content = content;
     }
 
-    public RealmList<News> getNews() {
+    public String getNews() {
+        return news;
+    }
+
+    public void setNews(String news) {
+        this.news = news;
+    }
+
+
+/* public RealmList<News> getNews() {
         return news;
     }
 
     public void setNews(RealmList<News> news) {
         this.news = news;
-    }
+    }*/
 
     public Date getDate() {
         return date;

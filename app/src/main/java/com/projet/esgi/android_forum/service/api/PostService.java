@@ -1,5 +1,6 @@
 package com.projet.esgi.android_forum.service.api;
 
+import com.projet.esgi.android_forum.model.Comment;
 import com.projet.esgi.android_forum.model.Post;
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.retrofit.IRFPostService;
@@ -66,4 +67,10 @@ public class PostService implements IGenericService<Post> {
     public void update(Post model, final IServiceResultListener<Boolean> resultListener) {
         getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
     }
+
+    public void listCriteria(String criteria, final IServiceResultListener<List<Post>> resultListener) {
+        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener);
+    }
+
+
 }

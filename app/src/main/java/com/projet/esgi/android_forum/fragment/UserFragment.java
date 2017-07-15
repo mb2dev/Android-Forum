@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
+import com.projet.esgi.android_forum.Adapter.MyAdapterUser;
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.User;
 import com.projet.esgi.android_forum.service.api.UserService;

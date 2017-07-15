@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Gabriel on 28/06/2017.
@@ -29,6 +30,9 @@ public interface IRFCommentService {
 
     @GET("comments/")
     Call<List<Comment>> list();
+
+    @GET("comments/")
+    Call<List<Comment>> listCriteria(@Query("criteria") String criteria);
 
     @PUT("comments/{id}")
     Call<ResponseBody> update(@Path(value = "id", encoded = true) String id, @Body Comment model);

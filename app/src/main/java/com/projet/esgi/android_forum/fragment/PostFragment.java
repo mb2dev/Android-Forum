@@ -1,7 +1,7 @@
 package com.projet.esgi.android_forum.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,15 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonObject;
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
-import com.projet.esgi.android_forum.Adapter.MyAdapterNew;
+import com.projet.esgi.android_forum.Adapter.MyAdapterPost;
 import com.projet.esgi.android_forum.Constant;
-import com.projet.esgi.android_forum.DetailActivity;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.R;
-import com.projet.esgi.android_forum.model.News;
 import com.projet.esgi.android_forum.model.Post;
-import com.projet.esgi.android_forum.service.api.NewsService;
+import com.projet.esgi.android_forum.model.Topic;
+import com.projet.esgi.android_forum.service.api.PostService;
 import com.projet.esgi.android_forum.service.api.TopicService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
@@ -25,47 +25,70 @@ import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Mickael on 11/07/2017.
+ */
 
-public class NewFragment extends Fragment implements ItemClickListener {
+public class PostFragment extends Fragment implements ItemClickListener {
 
     private RecyclerView recyclerView;
-    private List<News> newList = new ArrayList<>();
+    private MyAdapterPost mAdapter;
+    String idTopic;
     public CustomDialog.myOnClickListener myListener;
-    MyAdapterNew mAdapter;
-    private  CustomDialog mydialog;
-    private NewsService newsService;
+    private CustomDialog mydialog;
+    private PostService  postService;
+
+    private List<Post> postList = new ArrayList<>();
 
 
+    public PostFragment(){
 
-    public NewFragment() {
-        // Required empty public constructor
     }
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle arguments = getArguments();
+        if(arguments != null){
+            idTopic = arguments.getString("ID");
+            System.out.println("idTopic " + idTopic);
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_blank, container, false);
-        newsService = new NewsService();
-        newsService.list(new IServiceResultListener<List<News>>() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        final View view = inflater.inflate(R.layout.topic_fragment, container, false);
+
+
+        postService = new PostService();
+
+
+
+        System.out.println("idTopic criteria  " + createQuery());
+        postService.listCriteria(createQuery(), new IServiceResultListener<List<Post>>() {
             @Override
-            public void onResult(ServiceResult<List<News>> result) {
+            public void onResult(ServiceResult<List<Post>> result) {
                 System.out.println("result " + result.getData());
-                newList = result.getData();
+                postList = result.getData();
                 recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                mAdapter = new MyAdapterNew(newList);
+                mAdapter = new MyAdapterPost(postList);
                 recyclerView.setAdapter(mAdapter);
-                mAdapter.setClickListener(NewFragment.this);
+                mAdapter.setClickListener(PostFragment.this);
             }
         });
+
         return view;
+    }
+
+    public String createQuery(){
+        JsonObject json = new JsonObject();
+        JsonObject where = new JsonObject();
+        where.addProperty("topic", idTopic);
+        json.add("where",where);
+        return json.toString();
     }
 
     @Override
@@ -78,7 +101,7 @@ public class NewFragment extends Fragment implements ItemClickListener {
         }
         if (view.getId() ==R.id.btn_update){
             System.out.println("on Update");
-            final News newsSelected = newList.get(position);
+            final Post PostSelected = postList.get(position);
 
             myListener = new CustomDialog.myOnClickListener() {
                 @Override
@@ -88,9 +111,9 @@ public class NewFragment extends Fragment implements ItemClickListener {
 
                 @Override
                 public void onButtonUpdate(String title, String content) {
-                    newsSelected.setTitle(title);
-                    newsSelected.setContent(content);
-                    newsService.update(newsSelected, new IServiceResultListener<Boolean>() {
+                    PostSelected.setTitle(title);
+                    PostSelected.setContent(content);
+                    postService.update(  PostSelected, new IServiceResultListener<Boolean>() {
                         @Override
                         public void onResult(ServiceResult<Boolean> result) {
                             if(result.getError()!=null){
@@ -103,13 +126,8 @@ public class NewFragment extends Fragment implements ItemClickListener {
                     });
                 }
             };
-            mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_NEWS,newsSelected.getTitle(), newsSelected.getContent());
+            mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_POST,PostSelected.getTitle(), PostSelected.getContent());
             mydialog.show();
-        }else{
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("ID", newList.get(position).get_id());
-            intent.putExtra("TYPE", "comment");
-            startActivity(intent);
         }
     }
 }

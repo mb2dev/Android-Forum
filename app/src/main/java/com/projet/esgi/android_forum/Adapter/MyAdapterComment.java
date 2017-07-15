@@ -1,4 +1,4 @@
-package com.projet.esgi.android_forum.fragment;
+package com.projet.esgi.android_forum.Adapter;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -8,22 +8,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.R;
-import com.projet.esgi.android_forum.model.Topic;
+import com.projet.esgi.android_forum.model.Comment;
 
 import java.util.List;
 
 /**
- * Created by Mickael on 02/07/2017.
+ * Created by Mickael on 14/07/2017.
  */
-public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHolder> {
 
-    List<Topic> list;
+public class MyAdapterComment extends RecyclerView.Adapter<MyAdapterComment.MyViewHolder> {
+
+    List<Comment> list;
     private ItemClickListener clickListener;
 
 
-    public MyAdapterTopic(List<Topic> list) {
+    public MyAdapterComment(List<Comment> list) {
         this.list = list;
     }
 
@@ -36,7 +36,7 @@ public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Topic myObject = list.get(position);
+        Comment myObject = list.get(position);
         holder.bind(myObject);
     }
 
@@ -57,6 +57,7 @@ public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHo
         private TextView textViewView;
         private TextView textViewDescription;
         private Button btnDelete;
+        private Button btnUpdate;
 
 
         //itemView est la vue correspondante à 1 cellule
@@ -65,36 +66,35 @@ public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHo
             textViewView = (TextView) itemView.findViewById(R.id.info_text);
             textViewDescription = (TextView) itemView.findViewById(R.id.info_description);
             btnDelete = (Button) itemView.findViewById(R.id.btn_delete);
-            btnDelete.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorTopic));
+            btnUpdate = (Button) itemView.findViewById(R.id.btn_update);
+            btnDelete.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorNews));
+            btnUpdate.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorNews));
             itemView.setOnClickListener(this);
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   list.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
+                    if (clickListener != null)  clickListener.onClick(btnDelete, getAdapterPosition());
+                }
+            });
 
+            btnUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (clickListener != null) clickListener.onClick(btnUpdate, getAdapterPosition());
                 }
             });
 
         }
 
-        //puis ajouter une fonction pour remplir la cellule en fonction d'un MyObject
-        public void bind(Topic myObject){
+
+        public void bind(Comment myObject){
             textViewView.setText(myObject.getTitle());
             textViewDescription.setText(myObject.getContent());
-
         }
 
         @Override
         public void onClick(View view) {
-            if(view.equals(btnDelete)){
-                System.out.println("on remove");
-            }else {
-                if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
-            }
-
+            if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
         }
     }
 }
-
-

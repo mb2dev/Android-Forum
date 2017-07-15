@@ -67,4 +67,5 @@ public class GenericService<T extends IRFGeneric> implements IGenericService<Per
     public void update(PersistedModel model, IServiceResultListener<Boolean> resultListener) {
 
     }
+
 }

@@ -1,6 +1,8 @@
 package com.projet.esgi.android_forum.service.api;
 
 import com.projet.esgi.android_forum.model.Comment;
+import com.projet.esgi.android_forum.model.News;
+import com.projet.esgi.android_forum.model.User;
 import com.projet.esgi.android_forum.service.retrofit.IRFCommentService;
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.retrofit.RFHelper;
@@ -13,6 +15,7 @@ import com.projet.esgi.android_forum.service.rfabstract.ServiceExceptionType;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -45,6 +48,7 @@ public class CommentService implements IGenericService<Comment> {
     @Override
     public void create(Comment model, final IServiceResultListener<String> resultListener) {
         getRFHelper().getDefaultCreate(getRfService().create(model), resultListener);
+
     }
 
     @Override
@@ -62,8 +66,16 @@ public class CommentService implements IGenericService<Comment> {
         getRFHelper().getDefaultList(getRfService().list(), resultListener);
     }
 
+    public void listCriteria(String criteria, final IServiceResultListener<List<Comment>> resultListener) {
+        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener);
+    }
+
     @Override
     public void update(Comment model, final IServiceResultListener<Boolean> resultListener) {
         getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
+    }
+
+    public void search(Map<String, String> queries, final IServiceResultListener<List<Comment>> resultListener){
+
     }
 }

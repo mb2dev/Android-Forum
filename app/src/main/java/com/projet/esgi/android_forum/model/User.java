@@ -15,6 +15,7 @@ import io.realm.RealmObject;
 
 public class User extends PersistedModel implements RealmModel {
 
+    private String _id;
     private String email;
     private String firstname;
     private String lastname;
@@ -34,6 +35,14 @@ public class User extends PersistedModel implements RealmModel {
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getPassword() {

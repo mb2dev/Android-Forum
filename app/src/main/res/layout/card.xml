@@ -86,6 +86,14 @@
             android:gravity="right"
             android:layout_height="wrap_content">
 
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTopic"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="Update"/>
+
 
             <Button
                 android:id="@+id/btn_delete"

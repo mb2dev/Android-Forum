@@ -57,12 +57,20 @@ public class NewsService implements IGenericService<News> {
     }
 
     @Override
-    public void list(final IServiceResultListener<List<News>> resultListener) {
+    public void list(IServiceResultListener<List<News>> resultListener) {
         getRFHelper().getDefaultList(getRfService().list(), resultListener);
+    }
+
+
+    public void listCriteria(String criteria, final IServiceResultListener<List<News>> resultListener) {
+        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener);
     }
 
     @Override
     public void update(News model, final IServiceResultListener<Boolean> resultListener) {
         getRFHelper().getDefaultUpdate(getRfService().update(""+model.getId(), model), resultListener);
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.projet.esgi.android_forum.service.retrofit;
 
+import com.projet.esgi.android_forum.model.Comment;
 import com.projet.esgi.android_forum.model.Post;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Gabriel on 28/06/2017.
@@ -29,6 +31,9 @@ public interface IRFPostService {
 
     @GET("posts/")
     Call<List<Post>> list();
+
+    @GET("posts/")
+    Call<List<Post>> listCriteria(@Query("criteria") String criteria);
 
     @PUT("posts/{id}")
     Call<ResponseBody> update(@Path(value = "id", encoded = true) String id, @Body Post model);

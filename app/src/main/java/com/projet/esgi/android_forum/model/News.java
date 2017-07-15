@@ -15,6 +15,7 @@ import io.realm.RealmObject;
 
 public class News extends PersistedModel implements RealmModel {
 
+    private String _id;
     private  String title;
     private String content;
     private Date date;
@@ -32,6 +33,14 @@ public class News extends PersistedModel implements RealmModel {
         this.title = title;
         this.content = content;
         this.date = new Date();
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getTitle() {
@@ -57,6 +66,8 @@ public class News extends PersistedModel implements RealmModel {
     public void setDate(Date date) {
         this.date = date;
     }
+
+
 
     @Override
     public String getModelNameForUrlPath() {

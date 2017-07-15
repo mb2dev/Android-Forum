@@ -1,7 +1,10 @@
 package com.projet.esgi.android_forum;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.IdRes;
@@ -11,8 +14,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,7 @@ import android.widget.LinearLayout;
 
 import com.kelin.translucentbar.library.TranslucentBarManager;
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
-import com.projet.esgi.android_forum.fragment.MyAdapterTopic;
+import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.fragment.NewFragment;
 import com.projet.esgi.android_forum.fragment.TopicFragment;
 import com.projet.esgi.android_forum.fragment.UserFragment;
@@ -40,13 +41,14 @@ import com.roughike.bottombar.OnTabSelectListener;
 import butterknife.BindView;
 
 
-public class listActivity extends AppCompatActivity implements ItemClickListener {
+public class listActivity extends AppCompatActivity {
 
 
     BottomBar bottomBar;
     TranslucentBarManager translucentBarManager;
     FloatingActionButton floatingActionButton;
     Dialog dialog;
+    ProgressDialog pd;
 
     @BindView(R.id.btn_add)
     Button btnAdd;
@@ -64,6 +66,7 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         initActionBar();
+        pd = new ProgressDialog(listActivity.this);
 
         final FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = supportFragmentManager.beginTransaction();
@@ -86,10 +89,12 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
         header = (LinearLayout) dialog.findViewById(R.id.linear_header_dialog);
         img = (ImageView) dialog.findViewById(R.id.img_header_dialog);
         editTitle= (EditText) dialog.findViewById(R.id.dialog_title) ;
-        editDescription = (EditText) dialog.findViewById(R.id.dialog_description) ;
+        editDescription = (EditText) dialog.findViewById(R.id.dialog_description);
 
 
-        setThemeApp( R.color.colorTopic, R.drawable.ic_topic);
+
+
+        setThemeApp(R.color.colorTopic, R.drawable.ic_topic);
 
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -118,7 +123,6 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
                     FragmentTransaction ft = supportFragmentManager.beginTransaction();
                     ft.replace(R.id.main_fragment, new UserFragment());
                     ft.commitAllowingStateLoss();
-                    //floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getApplicationContext(), R.color.colorProfil)));
 
                 }
             }
@@ -132,6 +136,8 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
                 dialog.dismiss();
             }
         });
+        setLoading();
+
     }
 
 
@@ -163,10 +169,12 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         TopicService topicService = new TopicService();
                         Topic topic = new Topic();
                         topic.setTitle(editTitle.getText().toString());
                         topic.setContent(editDescription.getText().toString());
+                        pd.show();
                         topicService.create(topic, new IServiceResultListener<String>() {
                             @Override
                             public void onResult(ServiceResult<String> result) {
@@ -176,6 +184,8 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
                                 else{
                                     System.out.println("result " + result.getData());
                                 }
+                                pd.dismiss();
+                                dialog.dismiss();
                             }
                         });
 
@@ -197,16 +207,20 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
                         News news = new News();
                         news.setTitle(editTitle.getText().toString());
                         news.setContent(editDescription.getText().toString());
+                        pd.show();
 
                         newsService.create(news, new IServiceResultListener<String>() {
                             @Override
                             public void onResult(ServiceResult<String> result) {
+
                                 if(result.getError()!=null){
                                     System.out.println("error " + result.getError());
                                 }
                                 else{
                                     System.out.println("result " + result.getData());
                                 }
+                                pd.dismiss();
+                                dialog.dismiss();
                             }
                         });
                     }
@@ -214,6 +228,15 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
                 dialog.show();
             }
         });
+    }
+
+    public void setLoading(){
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.setCanceledOnTouchOutside(false);
+        pd.setTitle("Log in");
+        pd.setMessage("Loading  .........");
+        pd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFD4D9D0")));
+        pd.setIndeterminate(false);
     }
 
 
@@ -239,10 +262,5 @@ public class listActivity extends AppCompatActivity implements ItemClickListener
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View view, int position) {
-        System.out.println("ok : "+ position);
     }
 }
