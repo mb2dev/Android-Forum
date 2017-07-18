@@ -12,12 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.projet.esgi.android_forum.Constant;
+import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.R;
-
-import butterknife.BindView;
 
 /**
  * Created by Mickael on 04/07/2017.
@@ -64,7 +61,7 @@ public class CustomDialog extends Dialog {
         header = (LinearLayout) findViewById(R.id.linear_header_dialog);
         img = (ImageView) findViewById(R.id.img_header_dialog);
 
-        if(type.equals(Constant.TYPE_TOPIC) || type.equals(Constant.TYPE_POST)){
+        if(type.equals(Constants.TYPE_TOPIC) || type.equals(Constants.TYPE_POST)){
             btnAdd.setTextColor(ContextCompat.getColor(context,R.color.colorTopic));
             btnCancel.setTextColor(ContextCompat.getColor(context,R.color.colorTopic));
             LayerDrawable bgDrawable = (LayerDrawable)header.getBackground();
@@ -75,7 +72,8 @@ public class CustomDialog extends Dialog {
             params.height = 150;
             params.width = 150;
         }
-        else if(type.equals(Constant.TYPE_NEWS) || type.equals(Constant.TYPE_COMMENT)){
+
+        else if(type.equals(Constants.TYPE_NEWS) || type.equals(Constants.TYPE_COMMENT)){
             btnAdd.setTextColor(ContextCompat.getColor(context, R.color.colorNews));
             btnCancel.setTextColor(ContextCompat.getColor(context, R.color.colorNews));
             LayerDrawable bgDrawable = (LayerDrawable)header.getBackground();

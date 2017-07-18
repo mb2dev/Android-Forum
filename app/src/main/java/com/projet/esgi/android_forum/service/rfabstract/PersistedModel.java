@@ -4,11 +4,16 @@ import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 
 import java.util.UUID;
 
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
+
 /**
  * Created by Gabriel on 30/06/2017.
  */
 
-public abstract class PersistedModel implements IRFGeneric {
+
+public class PersistedModel implements IRFGeneric, RealmModel {
 
     @Exclude(serialize = true, deserialize = false)
     protected String id;
@@ -23,5 +28,10 @@ public abstract class PersistedModel implements IRFGeneric {
 
     public PersistedModel(String id){
         this.id = id;
+    }
+
+    @Override
+    public String getModelNameForUrlPath() {
+        return null;
     }
 }

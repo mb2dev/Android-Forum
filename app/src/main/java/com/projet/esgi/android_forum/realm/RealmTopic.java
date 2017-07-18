@@ -1,0 +1,68 @@
+package com.projet.esgi.android_forum.realm;
+
+import android.app.Activity;
+import android.app.Application;
+import android.support.v4.app.Fragment;
+
+import com.projet.esgi.android_forum.model.Topic;
+
+import io.realm.Realm;
+
+/**
+ * Created by Mickael on 18/07/2017.
+ */
+
+public class RealmTopic {
+
+    public static class RealmController {
+
+        private static RealmController instance;
+        private final Realm realm;
+
+        public RealmController(Application application) {
+            realm = Realm.getDefaultInstance();
+        }
+
+        public static RealmController with(Fragment fragment) {
+
+            if (instance == null) {
+                instance = new RealmController(fragment.getActivity().getApplication());
+            }
+            return instance;
+        }
+
+        public static RealmController with(Activity activity) {
+
+            if (instance == null) {
+                instance = new RealmController(activity.getApplication());
+            }
+            return instance;
+        }
+
+        public static RealmController with(Application application) {
+
+            if (instance == null) {
+                instance = new RealmController(application);
+            }
+            return instance;
+        }
+
+        public static RealmController getInstance() {
+
+            return instance;
+        }
+
+        public Realm getRealm() {
+
+            return realm;
+        }
+
+        //Refresh the realm istance
+        public void refresh() {
+
+            realm.refresh();
+        }
+
+
+    }
+}

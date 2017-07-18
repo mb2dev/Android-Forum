@@ -70,6 +70,7 @@ public class MyAdapterPost extends RecyclerView.Adapter<MyAdapterPost.MyViewHold
             btnUpdate =  (Button) itemView.findViewById(R.id.btn_update);
             btnDelete.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorTopic));
             btnUpdate.setTextColor(ContextCompat.getColor(itemView.getContext(),R.color.colorTopic));
+
             itemView.setOnClickListener(this);
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override

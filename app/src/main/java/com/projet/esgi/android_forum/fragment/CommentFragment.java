@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.google.gson.JsonObject;
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterComment;
-import com.projet.esgi.android_forum.Constant;
+import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.Comment;
@@ -132,7 +132,7 @@ public class CommentFragment extends Fragment implements ItemClickListener,  INo
                     });
                 }
             };
-            mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_COMMENT,commentSelected.getTitle(), commentSelected.getContent());
+            mydialog = new CustomDialog(getActivity(), myListener, Constants.TYPE_COMMENT,commentSelected.getTitle(), commentSelected.getContent());
             mydialog.show();
         }
     }

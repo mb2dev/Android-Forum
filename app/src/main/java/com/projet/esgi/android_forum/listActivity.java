@@ -2,6 +2,8 @@ package com.projet.esgi.android_forum;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -174,6 +176,7 @@ public class listActivity extends AppCompatActivity {
                 btnAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        System.out.println("ADDNEW");
                         TopicService topicService = new TopicService();
                         final Topic topic = new Topic();
                         topic.setTitle(editTitle.getText().toString());
@@ -182,11 +185,11 @@ public class listActivity extends AppCompatActivity {
                         topicService.create(topic, new IServiceResultListener<String>() {
                             @Override
                             public void onResult(ServiceResult<String> result) {
+                                System.out.println("ADDNEWResult");
                                 if(result.getError()!=null){
                                     System.out.println("error " + result.getError());
                                 }
                                 else{
-
                                     TopicFragment topicFragment = (TopicFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
                                     topicFragment.notifyAddItem(topic);
                                     System.out.println("result " + result.getData());
@@ -252,7 +255,7 @@ public class listActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_scrolling, menu);
+        getMenuInflater().inflate(R.menu.menu_list, menu);
         return true;
     }
     @Override
@@ -263,8 +266,14 @@ public class listActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_log_out) {
+            SharedPreferences settings = getSharedPreferences("User", 0);
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("token", "");
+            editor.commit();
+            Intent intent = new Intent(listActivity.this, MainActivity.class);
+            startActivity(intent);
         }
 
         if (id == android.R.id.home) {

@@ -54,12 +54,12 @@ public class TopicService implements IGenericService<Topic> {
 
     @Override
     public void delete(Topic model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener);
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener,model.get_id(),Topic.class);
     }
 
     @Override
     public void list(final IServiceResultListener<List<Topic>> resultListener) {
-        getRFHelper().getDefaultList(getRfService().list(), resultListener);
+        getRFHelper().getDefaultList(getRfService().list(), resultListener, Topic.class);
     }
 
     @Override

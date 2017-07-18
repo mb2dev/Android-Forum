@@ -11,15 +11,12 @@ import android.view.ViewGroup;
 
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterNew;
-import com.projet.esgi.android_forum.Constant;
+import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.DetailActivity;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.News;
-import com.projet.esgi.android_forum.model.Post;
-import com.projet.esgi.android_forum.model.Topic;
 import com.projet.esgi.android_forum.service.api.NewsService;
-import com.projet.esgi.android_forum.service.api.TopicService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 
@@ -108,12 +105,13 @@ public class NewFragment extends Fragment implements ItemClickListener,  INotify
                             else{
                                 System.out.println("result " + result.getData());
                             }
+                            mAdapter.notifyDataSetChanged();
                             mydialog.dismiss();
                         }
                     });
                 }
             };
-            mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_NEWS,newsSelected.getTitle(), newsSelected.getContent());
+            mydialog = new CustomDialog(getActivity(), myListener, Constants.TYPE_NEWS,newsSelected.getTitle(), newsSelected.getContent());
             mydialog.show();
         }else{
             Intent intent = new Intent(getActivity(), DetailActivity.class);

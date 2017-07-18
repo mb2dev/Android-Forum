@@ -8,13 +8,16 @@ import java.util.UUID;
 
 import io.realm.RealmModel;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by Mickael on 28/06/2017.
  */
 
-public class News extends PersistedModel implements RealmModel {
+public class News extends RealmObject {
 
+    @PrimaryKey
     private String _id;
     private  String title;
     private String content;
@@ -29,7 +32,7 @@ public class News extends PersistedModel implements RealmModel {
     }
 
     public News(String id, String title, String content){
-        super(id);
+       // super(id);
         this.title = title;
         this.content = content;
         this.date = new Date();
@@ -69,8 +72,8 @@ public class News extends PersistedModel implements RealmModel {
 
 
 
-    @Override
+    /*@Override
     public String getModelNameForUrlPath() {
         return "news";
-    }
+    }*/
 }

@@ -48,22 +48,22 @@ public class NewsService implements IGenericService<News> {
 
     @Override
     public void read(News model, final IServiceResultListener<News> resultListener) {
-        getRFHelper().getDefaultRead(getRfService().read(""+model.getId()), resultListener);
+        getRFHelper().getDefaultRead(getRfService().read(""+model.get_id()), resultListener);
     }
 
     @Override
     public void delete(News model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener);
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener, model.get_id(), News.class);
     }
 
     @Override
     public void list(IServiceResultListener<List<News>> resultListener) {
-        getRFHelper().getDefaultList(getRfService().list(), resultListener);
+        getRFHelper().getDefaultList(getRfService().list(), resultListener, News.class);
     }
 
 
     public void listCriteria(String criteria, final IServiceResultListener<List<News>> resultListener) {
-        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener);
+        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener, News.class);
     }
 
     @Override

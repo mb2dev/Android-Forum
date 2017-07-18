@@ -12,13 +12,11 @@ import android.view.ViewGroup;
 import com.google.gson.JsonObject;
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterPost;
-import com.projet.esgi.android_forum.Constant;
+import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.Post;
-import com.projet.esgi.android_forum.model.Topic;
 import com.projet.esgi.android_forum.service.api.PostService;
-import com.projet.esgi.android_forum.service.api.TopicService;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
 import com.projet.esgi.android_forum.service.rfabstract.ServiceResult;
 
@@ -130,12 +128,13 @@ public class PostFragment extends Fragment implements ItemClickListener, INotify
                             else{
                                 System.out.println("result " + result.getData());
                             }
+                            mAdapter.notifyDataSetChanged();
                             mydialog.dismiss();
                         }
                     });
                 }
             };
-            mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_POST,PostSelected.getTitle(), PostSelected.getContent());
+            mydialog = new CustomDialog(getActivity(), myListener, Constants.TYPE_POST,PostSelected.getTitle(), PostSelected.getContent());
             mydialog.show();
         }
     }

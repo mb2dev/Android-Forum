@@ -10,13 +10,18 @@ import java.util.UUID;
 import io.realm.RealmList;
 import io.realm.RealmModel;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by Mickael on 28/06/2017.
  */
 
+
+
 public class Comment extends PersistedModel implements RealmModel {
 
+    @PrimaryKey
     private String _id;
     private String title;
     private String content;

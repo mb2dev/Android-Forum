@@ -8,13 +8,16 @@ import java.util.UUID;
 
 import io.realm.RealmModel;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by Mickael on 28/06/2017.
  */
 
-public class User extends PersistedModel implements RealmModel {
+public class User extends RealmObject {
 
+    @PrimaryKey
     private String _id;
     private String email;
     private String firstname;
@@ -30,7 +33,7 @@ public class User extends PersistedModel implements RealmModel {
     }
 
     public User(String id, String email, String firstname, String lastname, String password){
-        super(id);
+       // super(id);
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -81,7 +84,7 @@ public class User extends PersistedModel implements RealmModel {
         User u = new User();
         u.firstname = null;
         u.lastname = null;
-        u.id = null;
+        //u.id = null;
         u.password = password;
         u.email = email;
         return u;
@@ -90,7 +93,6 @@ public class User extends PersistedModel implements RealmModel {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
                 ", email='" + email + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
@@ -98,8 +100,8 @@ public class User extends PersistedModel implements RealmModel {
                 '}';
     }
 
-    @Override
+   /* @Override
     public String getModelNameForUrlPath() {
         return "users";
-    }
+    }*/
 }

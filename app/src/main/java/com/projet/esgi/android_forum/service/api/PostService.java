@@ -1,6 +1,7 @@
 package com.projet.esgi.android_forum.service.api;
 
 import com.projet.esgi.android_forum.model.Comment;
+import com.projet.esgi.android_forum.model.News;
 import com.projet.esgi.android_forum.model.Post;
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.retrofit.IRFPostService;
@@ -50,17 +51,17 @@ public class PostService implements IGenericService<Post> {
 
     @Override
     public void read(Post model, final IServiceResultListener<Post> resultListener) {
-        getRFHelper().getDefaultRead(getRfService().read(""+model.getId()), resultListener);
+        getRFHelper().getDefaultRead(getRfService().read(""+model.get_id()), resultListener);
     }
 
     @Override
     public void delete(Post model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener);
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener, model.get_id(), Post.class);
     }
 
     @Override
     public void list(final IServiceResultListener<List<Post>> resultListener) {
-        getRFHelper().getDefaultList(getRfService().list(), resultListener);
+        getRFHelper().getDefaultList(getRfService().list(), resultListener, Post.class);
     }
 
     @Override
@@ -69,7 +70,7 @@ public class PostService implements IGenericService<Post> {
     }
 
     public void listCriteria(String criteria, final IServiceResultListener<List<Post>> resultListener) {
-        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener);
+        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener,Post.class);
     }
 
 

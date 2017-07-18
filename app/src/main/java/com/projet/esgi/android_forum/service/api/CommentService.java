@@ -53,21 +53,21 @@ public class CommentService implements IGenericService<Comment> {
 
     @Override
     public void read(Comment model, final IServiceResultListener<Comment> resultListener) {
-        getRFHelper().getDefaultRead(getRfService().read(""+model.getId()), resultListener);
+        getRFHelper().getDefaultRead(getRfService().read(""+model.get_id()), resultListener);
     }
 
     @Override
     public void delete(Comment model, final IServiceResultListener<Boolean> resultListener) {
-        getRFHelper().getDefaultDelete(getRfService().delete(""+model.getId()), resultListener);
+        getRFHelper().getDefaultDelete(getRfService().delete(""+model.get_id()), resultListener, model.get_id(), Comment.class);
     }
 
     @Override
     public void list(final IServiceResultListener<List<Comment>> resultListener) {
-        getRFHelper().getDefaultList(getRfService().list(), resultListener);
+        getRFHelper().getDefaultList(getRfService().list(), resultListener, Comment.class);
     }
 
     public void listCriteria(String criteria, final IServiceResultListener<List<Comment>> resultListener) {
-        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener);
+        getRFHelper().getDefaultList(getRfService().listCriteria(criteria), resultListener, Comment.class);
     }
 
     @Override

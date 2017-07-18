@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import com.projet.esgi.android_forum.Adapter.ItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterTopic;
-import com.projet.esgi.android_forum.Constant;
+import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.DetailActivity;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
 import com.projet.esgi.android_forum.R;
@@ -53,7 +53,7 @@ public class TopicFragment extends Fragment implements ItemClickListener, INotif
         topicService = new TopicService();
         topicService.list(new IServiceResultListener<List<Topic>>() {
             @Override
-            public void onResult(ServiceResult<List<Topic>> result) {
+            public void onResult(final ServiceResult<List<Topic>> result) {
                 if(result.getError()!=null){
                     System.out.println("error " + result.getError());
                 }
@@ -66,6 +66,25 @@ public class TopicFragment extends Fragment implements ItemClickListener, INotif
                     mAdapter = new MyAdapterTopic(topicList);
                     recyclerView.setAdapter(mAdapter);
                     mAdapter.setClickListener(TopicFragment.this);
+
+
+                   /* Realm realm = Realm.getDefaultInstance();
+                    realm.executeTransaction(new Realm.Transaction(){
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.insertOrUpdate(result.getData());
+                            //realm.createOr
+                            //realm.insert(result.getData());
+                            List<Topic> get = realm.where(Topic.class).findAll();
+                            mAdapter = new MyAdapterTopic(get);
+                            recyclerView.setAdapter(mAdapter);
+                            mAdapter.setClickListener(TopicFragment.this);
+                        }
+                    });*/
+
+
+
+
                 }
             }
         });
@@ -118,7 +137,7 @@ public class TopicFragment extends Fragment implements ItemClickListener, INotif
                     });
                 }
             };
-            mydialog = new CustomDialog(getActivity(), myListener, Constant.TYPE_TOPIC,topicSelected.getTitle(),topicSelected.getContent());
+            mydialog = new CustomDialog(getActivity(), myListener, Constants.TYPE_TOPIC,topicSelected.getTitle(),topicSelected.getContent());
             mydialog.show();
         }
         else{
