@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.projet.esgi.android_forum.Adapter.ItemClickListener;
+import com.projet.esgi.android_forum.Adapter.OnItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterUser;
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.User;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Mickael on 08/07/2017.
  */
 
-public class UserFragment extends Fragment implements ItemClickListener {
+public class UserFragment extends Fragment implements OnItemClickListener {
 
     private RecyclerView recyclerView;
     private List<User> userList = new ArrayList<>();

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.projet.esgi.android_forum.Adapter.ItemClickListener;
+import com.projet.esgi.android_forum.Adapter.OnItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterTopic;
 import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.DetailActivity;
@@ -28,7 +28,7 @@ import java.util.List;
  * Created by Mickael on 02/07/2017.
  */
 
-public class TopicFragment extends Fragment implements ItemClickListener, INotifyFragment<Topic> {
+public class TopicFragment extends Fragment implements OnItemClickListener, INotifyFragment<Topic> {
 
     private RecyclerView recyclerView;
     private MyAdapterTopic mAdapter;

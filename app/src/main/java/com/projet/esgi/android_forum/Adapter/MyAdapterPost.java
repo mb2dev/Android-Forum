@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.Post;
-import com.projet.esgi.android_forum.model.Topic;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
 public class MyAdapterPost extends RecyclerView.Adapter<MyAdapterPost.MyViewHolder> {
 
     List<Post> list;
-    private ItemClickListener clickListener;
+    private OnItemClickListener clickListener;
 
 
     public MyAdapterPost(List<Post> list) {
@@ -47,8 +46,8 @@ public class MyAdapterPost extends RecyclerView.Adapter<MyAdapterPost.MyViewHold
         return list.size();
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.clickListener = itemClickListener;
+    public void setClickListener(OnItemClickListener onItemClickListener) {
+        this.clickListener = onItemClickListener;
     }
 
 

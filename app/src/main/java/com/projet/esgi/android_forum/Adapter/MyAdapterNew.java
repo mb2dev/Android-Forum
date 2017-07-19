@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.projet.esgi.android_forum.R;
 import com.projet.esgi.android_forum.model.News;
-import com.projet.esgi.android_forum.model.Topic;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ import java.util.List;
 public class MyAdapterNew extends RecyclerView.Adapter<MyAdapterNew.MyViewHolder> {
 
     List<News> list;
-    private ItemClickListener clickListener;
+    private OnItemClickListener clickListener;
 
 
     public MyAdapterNew(List<News> list) {
@@ -49,10 +48,9 @@ public class MyAdapterNew extends RecyclerView.Adapter<MyAdapterNew.MyViewHolder
         return list.size();
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.clickListener = itemClickListener;
+    public void setClickListener(OnItemClickListener onItemClickListener) {
+        this.clickListener = onItemClickListener;
     }
-
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

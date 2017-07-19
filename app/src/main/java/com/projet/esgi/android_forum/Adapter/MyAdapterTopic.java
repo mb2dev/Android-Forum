@@ -19,7 +19,7 @@ import java.util.List;
 public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHolder> {
 
     List<Topic> list;
-    private ItemClickListener clickListener;
+    private OnItemClickListener clickListener;
 
 
     public MyAdapterTopic(List<Topic> list) {
@@ -46,8 +46,8 @@ public class MyAdapterTopic extends RecyclerView.Adapter<MyAdapterTopic.MyViewHo
     }
 
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.clickListener = itemClickListener;
+    public void setClickListener(OnItemClickListener onItemClickListener) {
+        this.clickListener = onItemClickListener;
     }
 
 

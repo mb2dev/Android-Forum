@@ -9,8 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonObject;
-import com.projet.esgi.android_forum.Adapter.ItemClickListener;
+import com.projet.esgi.android_forum.Adapter.OnItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterPost;
 import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.Dialog.CustomDialog;
@@ -27,7 +26,7 @@ import java.util.List;
  * Created by Mickael on 11/07/2017.
  */
 
-public class PostFragment extends Fragment implements ItemClickListener, INotifyFragment<Post> {
+public class PostFragment extends Fragment implements OnItemClickListener, INotifyFragment<Post> {
 
     private RecyclerView recyclerView;
     private MyAdapterPost mAdapter;

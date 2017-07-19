@@ -23,7 +23,7 @@ import com.projet.esgi.android_forum.R;
 
 public class CustomDialog extends Dialog {
 
-   private  myOnClickListener myclick;
+    private myOnClickListener myclick;
     private Button btnCancel;
     private Button btnAdd;
     private EditText title;

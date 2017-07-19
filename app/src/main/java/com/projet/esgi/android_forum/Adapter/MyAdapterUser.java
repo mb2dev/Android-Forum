@@ -1,6 +1,5 @@
 package com.projet.esgi.android_forum.Adapter;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,7 @@ import java.util.List;
 public class MyAdapterUser extends RecyclerView.Adapter<MyAdapterUser.MyViewHolder> {
 
     List<User> list;
-    private ItemClickListener clickListener;
+    private OnItemClickListener clickListener;
 
 
     public MyAdapterUser(List<User> list) {
@@ -46,8 +45,8 @@ public class MyAdapterUser extends RecyclerView.Adapter<MyAdapterUser.MyViewHold
         return list.size();
     }
 
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.clickListener = itemClickListener;
+    public void setClickListener(OnItemClickListener onItemClickListener) {
+        this.clickListener = onItemClickListener;
     }
 
 

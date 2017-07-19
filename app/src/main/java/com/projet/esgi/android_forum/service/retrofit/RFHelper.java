@@ -39,6 +39,8 @@ public  class RFHelper<T extends RealmModel> {
 
     public  void getDefaultCreate(Call<ResponseBody> call, final IServiceResultListener<String> resultListener, final T model, Class<T> clazz){
         if (!ConnectivityStatus.sharedIntance.isNetworkAvailable()) {
+
+
             Realm realm = Realm.getDefaultInstance();
             Request request = call.request();
             ((IPersistedModel) model).set_id(UUID.randomUUID().toString());
@@ -58,6 +60,9 @@ public  class RFHelper<T extends RealmModel> {
                     realm.insert(model);
                 }
             });
+
+
+
         }else{
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
