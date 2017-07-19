@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.projet.esgi.android_forum.Adapter.ItemClickListener;
+import com.projet.esgi.android_forum.Adapter.OnItemClickListener;
 import com.projet.esgi.android_forum.Adapter.MyAdapterNew;
 import com.projet.esgi.android_forum.Constants;
 import com.projet.esgi.android_forum.DetailActivity;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class NewFragment extends Fragment implements ItemClickListener,  INotifyFragment<News> {
+public class NewFragment extends Fragment implements OnItemClickListener,  INotifyFragment<News> {
 
     private RecyclerView recyclerView;
     private List<News> newList = new ArrayList<>();

@@ -26,9 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.kelin.translucentbar.library.TranslucentBarManager;
-import com.projet.esgi.android_forum.Adapter.ItemClickListener;
-import com.projet.esgi.android_forum.Dialog.CustomDialog;
-import com.projet.esgi.android_forum.fragment.INotifyFragment;
 import com.projet.esgi.android_forum.fragment.NewFragment;
 import com.projet.esgi.android_forum.fragment.TopicFragment;
 import com.projet.esgi.android_forum.fragment.UserFragment;
@@ -44,8 +41,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import butterknife.BindView;
 
 
-public class listActivity extends AppCompatActivity {
-
+public class ListActivity extends AppCompatActivity {
 
     BottomBar bottomBar;
     TranslucentBarManager translucentBarManager;
@@ -59,14 +55,12 @@ public class listActivity extends AppCompatActivity {
     EditText editTitle;
     EditText editDescription;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling);
         initActionBar();
-        pd = new ProgressDialog(listActivity.this);
+        pd = new ProgressDialog(ListActivity.this);
 
 
         final FragmentManager supportFragmentManager = getSupportFragmentManager();
@@ -81,7 +75,7 @@ public class listActivity extends AppCompatActivity {
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.action);
         floatingActionButton.bringToFront();
-        dialog = new Dialog(listActivity.this);
+        dialog = new Dialog(ListActivity.this);
         dialog.setContentView(R.layout.custom_dialog);
 
 
@@ -122,7 +116,7 @@ public class listActivity extends AppCompatActivity {
 
                 }
                 else if (tabId == R.id.tab_profile) {
-                    translucentBarManager.translucent(listActivity.this, R.color.colorProfil);
+                    translucentBarManager.translucent(ListActivity.this, R.color.colorProfil);
                     floatingActionButton.hide();
                     btnAdd.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorProfil));
                     btnCancel.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorProfil));
@@ -158,7 +152,7 @@ public class listActivity extends AppCompatActivity {
 
 
     private void setThemeApp(int color, int drawableImg){
-        translucentBarManager.translucent(listActivity.this, color);
+        translucentBarManager.translucent(ListActivity.this, color);
         floatingActionButton.show();
         LayerDrawable bgDrawable = (LayerDrawable)header.getBackground();
         GradientDrawable shape = (GradientDrawable)   bgDrawable.findDrawableByLayerId(R.id.item_shape);
@@ -272,7 +266,7 @@ public class listActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("token", "");
             editor.commit();
-            Intent intent = new Intent(listActivity.this, MainActivity.class);
+            Intent intent = new Intent(ListActivity.this, MainActivity.class);
             startActivity(intent);
         }
 

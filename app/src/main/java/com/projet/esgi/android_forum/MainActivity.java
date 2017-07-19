@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         String token = settings.getString("token","");
         if(! token.isEmpty()){
             HttpBasicAuth.setToken(token);
-            Intent intent = new Intent(MainActivity.this, listActivity.class);
+            Intent intent = new Intent(MainActivity.this, ListActivity.class);
             startActivity(intent);
 
         }
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("token", result.getData());
                     editor.commit();
-                    Intent intent = new Intent(MainActivity.this, listActivity.class);
+                    Intent intent = new Intent(MainActivity.this, ListActivity.class);
                     startActivity(intent);
                 }
             }
