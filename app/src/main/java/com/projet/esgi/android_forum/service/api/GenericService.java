@@ -4,6 +4,7 @@ import com.projet.esgi.android_forum.service.retrofit.IRFGenericService;
 import com.projet.esgi.android_forum.service.retrofit.RFHelper;
 import com.projet.esgi.android_forum.service.retrofit.Session;
 import com.projet.esgi.android_forum.service.rfabstract.IGenericService;
+import com.projet.esgi.android_forum.service.rfabstract.IPersistedModel;
 import com.projet.esgi.android_forum.service.rfabstract.IServiceResultListener;
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
@@ -43,7 +44,7 @@ public class GenericService<T extends IRFGeneric> implements IGenericService<Per
 
     @Override
     public void create(PersistedModel model, IServiceResultListener<String> resultListener) {
-        getRFHelper().getDefaultCreate(getRfService().create(model.getModelNameForUrlPath(), model), resultListener);
+       // getRFHelper().getDefaultCreate(getRfService().create(model.getModelNameForUrlPath(), model), resultListener,model);
     }
 
     @Override

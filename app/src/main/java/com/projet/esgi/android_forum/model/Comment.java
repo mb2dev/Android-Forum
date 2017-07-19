@@ -2,6 +2,7 @@ package com.projet.esgi.android_forum.model;
 
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
 import com.projet.esgi.android_forum.service.rfabstract.Exclude;
+import com.projet.esgi.android_forum.service.rfabstract.IPersistedModel;
 import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.UUID;
 import io.realm.RealmList;
 import io.realm.RealmModel;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
@@ -19,7 +21,7 @@ import io.realm.annotations.RealmClass;
 
 
 
-public class Comment extends PersistedModel implements RealmModel {
+public class Comment extends RealmObject implements IPersistedModel {
 
     @PrimaryKey
     private String _id;
@@ -37,7 +39,7 @@ public class Comment extends PersistedModel implements RealmModel {
     }
 
     public Comment(String id, String title, String content){
-        super(id);
+        //super(id);
         this.title = title;
         this.content = content;
         //this.news = new RealmList<News>();
@@ -93,8 +95,8 @@ public class Comment extends PersistedModel implements RealmModel {
         this.date = date;
     }
 
-    @Override
+    /*@Override
     public String getModelNameForUrlPath() {
         return "comments";
-    }
+    }*/
 }

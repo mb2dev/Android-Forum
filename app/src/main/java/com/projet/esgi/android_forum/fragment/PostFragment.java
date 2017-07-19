@@ -61,11 +61,8 @@ public class PostFragment extends Fragment implements ItemClickListener, INotify
 
 
         postService = new PostService();
-
-
-
-        System.out.println("idTopic criteria  " + createQuery());
-        postService.listCriteria(createQuery(), new IServiceResultListener<List<Post>>() {
+        //System.out.println("idTopic criteria  " + createQuery());
+        postService.listCriteria(idTopic, new IServiceResultListener<List<Post>>() {
             @Override
             public void onResult(ServiceResult<List<Post>> result) {
                 System.out.println("result " + result.getData());
@@ -81,13 +78,7 @@ public class PostFragment extends Fragment implements ItemClickListener, INotify
         return view;
     }
 
-    public String createQuery(){
-        JsonObject json = new JsonObject();
-        JsonObject where = new JsonObject();
-        where.addProperty("topic", idTopic);
-        json.add("where",where);
-        return json.toString();
-    }
+
 
     @Override
     public void onClick(final View view, final int position)

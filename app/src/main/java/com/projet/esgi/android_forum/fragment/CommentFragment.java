@@ -63,7 +63,7 @@ public class CommentFragment extends Fragment implements ItemClickListener,  INo
         commentService = new CommentService();
 
 
-        commentService.listCriteria(createQuery(), new IServiceResultListener<List<Comment>>() {
+        commentService.listCriteria(idNew, new IServiceResultListener<List<Comment>>() {
             @Override
             public void onResult(ServiceResult<List<Comment>> result) {
                 System.out.println("result " + result.getData());
@@ -78,13 +78,7 @@ public class CommentFragment extends Fragment implements ItemClickListener,  INo
         return view;
     }
 
-    public String createQuery(){
-        JsonObject json = new JsonObject();
-        JsonObject where = new JsonObject();
-        where.addProperty("news", idNew);
-        json.add("where",where);
-        return json.toString();
-    }
+
 
     @Override
     public void onClick(final View view, final int position)

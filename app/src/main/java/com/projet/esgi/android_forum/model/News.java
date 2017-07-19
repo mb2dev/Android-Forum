@@ -1,6 +1,7 @@
 package com.projet.esgi.android_forum.model;
 
 import com.projet.esgi.android_forum.service.retrofit.IRFGeneric;
+import com.projet.esgi.android_forum.service.rfabstract.IPersistedModel;
 import com.projet.esgi.android_forum.service.rfabstract.PersistedModel;
 
 import java.util.Date;
@@ -15,7 +16,7 @@ import io.realm.annotations.RealmClass;
  * Created by Mickael on 28/06/2017.
  */
 
-public class News extends RealmObject {
+public class News extends RealmObject implements IPersistedModel {
 
     @PrimaryKey
     private String _id;

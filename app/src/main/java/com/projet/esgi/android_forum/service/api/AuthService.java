@@ -38,6 +38,7 @@ public class AuthService implements IAuthService {
 
     @Override
     public void login(User u, final IServiceResultListener<String> resultListener) {
+        System.out.println("BONJOUR");
         Call<ResponseBody> call = getRfService().login(u);
         call.enqueue(new Callback<ResponseBody>() {
             @Override

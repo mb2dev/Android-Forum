@@ -13,7 +13,7 @@ import io.realm.annotations.RealmClass;
  */
 
 
-public class PersistedModel implements IRFGeneric, RealmModel {
+public abstract class PersistedModel implements IRFGeneric, RealmModel, IPersistedModel {
 
     @Exclude(serialize = true, deserialize = false)
     protected String id;
